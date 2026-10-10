@@ -87,6 +87,10 @@ and designed with its own architecture.
 Cubi 2 is an independent project: it is not affiliated with or endorsed by the
 original authors or ETH Zurich.
 
+## Tested in practice. 
+
+The printing, the assembly and the documentation of Cubi 2 have been tried out on real builds: the parts were printed, the cube was put together, and the guides were used to do it. The operation has not been tested yet - that comes next.
+
 ## A different direction: the sphere
 
 The Cubli stands up by braking its wheels suddenly. **Cubi has no brakes.**
