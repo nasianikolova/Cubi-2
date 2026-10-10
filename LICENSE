@@ -1,6 +1,21 @@
-MIT License
+Cubi 2 - licence overview
+=========================
 
-Copyright (c) 2026 Nasia Nikolova
+Cubi 2 is free for everyone: to use, study, copy, change, build, share and sell,
+for any purpose, as long as the name "Cubi 2" and its authors are credited.
+
+  Code (published later, and any code added)  ->  MIT License         (below)
+  CAD, drawings, documents, images            ->  CC BY 4.0           (see LICENSE-CAD.md)
+  Third-party models in CAD/hardware/                ->  their own licences  (CAD/hardware/SOURCES.txt)
+
+Please also read RESPECT.md: how the project asks to be treated, and the safety
+note for schools.
+
+
+MIT License
+-----------
+
+Copyright (c) 2026 Athanasia Nikolova and SpaceInClass - Cubi 2
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
