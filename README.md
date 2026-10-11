@@ -38,12 +38,6 @@ Cubi 2 adds:
   under the boards;
 - an attempt at **aesthetics alongside the engineering**.
 
-> *Cubi 1 is my love. Cubi 2 is my way.*
->
-> *My way is that every beautiful thing is also functional - but not every
-> functional thing is beautiful.*
->
-> - Athanasia Nikolova
 
 ## SpaceInClass
 
