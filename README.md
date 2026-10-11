@@ -4,15 +4,14 @@
 
 Cubi 2 is a self-balancing cube for the classroom. Three reaction wheels, one on
 each of three faces, and the battery sit inside a printed box; the box rides in
-a cage of 12 beams and a rolling sphere around it. High-school students build it
-and work with it to learn physics, mathematics, programming and space on a real
-machine.
+a cage of 12 beams, with a rolling sphere around it. High-school students build
+it and work with it to learn physics, mathematics, programming and space on a
+real machine.
 
-Cubi 2 is designed entirely in parametric code: one model makes the whole
-mechanical build, the three electronics boards, every cable and all the printed
-documents. All numbers - dimensions, clearances, screws, inserts, print
-settings, weights - come from tests and many real builds and prints, not only
-from theory.
+Cubi 2 is designed in parametric code: one model makes the mechanical build, the
+three electronics boards, every cable and the printed documents. The numbers -
+dimensions, clearances, screws, inserts, print settings, weights - come from
+tests and from real builds and prints, not from theory alone.
 
 This repository holds the **CAD files** (STEP). The build documents and the
 source code will be published later.
@@ -37,7 +36,7 @@ Cubi 2 adds:
   diagonal the cube balances on;
 - **the routing of the cables**: every wire on its own road, in order, hidden
   under the boards;
-- the **aesthetics that engineering must have**.
+- an attempt at **aesthetics alongside the engineering**.
 
 > *Cubi 1 is my love. Cubi 2 is my way.*
 >
@@ -49,11 +48,11 @@ Cubi 2 adds:
 ## SpaceInClass
 
 SpaceInClass is an initiative by Athanasia Nikolova from Veria, Greece. It began
-at the **CASSINI Space Camp 2025** in Thessaloniki, Greece, where she designed and
-assembled an 8U CubeSat model and planned its mission with her team. Its aim
-is to bring real space engineering into schools through *spaceLabs*, where
-students build, program and operate their own hardware. Cubi 2 is one of the
-projects made for the spaceLabs.
+at the **CASSINI Space Camp 2025** in Thessaloniki, Greece, where she and her
+team designed and assembled an 8U CubeSat model and planned its mission. The aim
+of SpaceInClass is to bring real space engineering into schools through
+*spaceLabs*, where students build, program and operate their own hardware. Cubi
+2 is one of the projects made for the spaceLabs.
 
 ### Why
 
@@ -87,18 +86,21 @@ and designed with its own architecture.
 Cubi 2 is an independent project: it is not affiliated with or endorsed by the
 original authors or ETH Zurich.
 
-## Tested in practice. 
+## Tested in practice
 
-The printing, the assembly and the documentation of Cubi 2 have been tried out on real builds: the parts were printed, the cube was put together, and the guides were used to do it. The operation has not been tested yet - that comes next.
+The printing, the assembly and the documentation of Cubi 2 have been tried out
+on real builds: the parts were printed, the cube was put together, and the
+guides were used to do it. The operation has not been tested yet - that comes
+next.
 
 ## A different direction: the sphere
 
 The Cubli stands up by braking its wheels suddenly. **Cubi has no brakes.**
 
-The first big change is the **sphere**. Cubi changes the original purpose: it
-aims at **motion**, not only at standing up and balancing. The sphere is the
-perfect shape, and it is where I intend to experiment the most. **Cubi 2 has
-the sphere.**
+The first big change is the **sphere**. Cubi shifts the original purpose: it aims
+at **motion**, not only at standing up and balancing. The sphere is the perfect
+shape, and it is where I intend to experiment the most. **Cubi 2 has the
+sphere.**
 
 ## What I intend
 
@@ -136,12 +138,11 @@ separately.
 ## How the documents are made
 
 The build documents (parts lists and step-by-step guides) are made with the help
-of **artificial intelligence**. Special care went into the scientific side of
-teaching with them:
+of **artificial intelligence**. Care went into the teaching side of them:
 
 - a **colour code** that stays the same in every document - each board, wire and
-  insert size has its own colour, chosen to be told apart also by students with
-  low vision or colour-blindness;
+  insert size has its own colour, chosen so that students with low vision or
+  colour-blindness can tell them apart as well;
 - **images and diagrams** drawn from the real 3D model, with real colours, so
   that what students see on paper is what they hold in their hands;
 - large print and short steps, so that every student can follow them.
@@ -153,8 +154,8 @@ students.
 
 - The **printed parts** in `CAD/print/` are the parts as printed; the parts in
   `CAD/hardware/` keep their original colours.
-- The **cage and the box are fixed**: they are already printed, and no later
-  change may move them, not even by 0.001 mm.
+- The **cage and the box are fixed**: they are already printed, so no later
+  change should move them, not even by 0.001 mm.
 - **Cables** run only on the cable roads: under the boards, along the three
   edges at corner 0, and on the sides of the corner-0 triangle. Power wires lie
   under the signal wires; no wire crosses another on a board; every wire gets
