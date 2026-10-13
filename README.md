@@ -111,7 +111,7 @@ These are the rules the project follows, and the state the files are in:
 
 ## Units and frames
 
-Millimetres. Corner 0 of the box is the origin; the three motor faces are x, y and z, with the wheels towards -x, -y and -z.
+Millimetres; Corner 0 of the box is the origin; the three motor faces are x, y and z, with the wheels towards -x, -y and -z.
 
 ## Licence
 
