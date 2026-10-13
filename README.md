@@ -12,7 +12,7 @@ This repository holds the **CAD files** (STEP). The build documents and the sour
 
 ## Cubi 1 and Cubi 2
 
-Cubi 2 grows out of **Cubi 1**, the first cube, which Athanasia Nikolova created and built at a space programme in Sofia, 2026.
+Cubi 2 grows out of Cubi 1, the first cube, built by a team at a space programme in Sofia, 2026. The idea and the whole mechanical design of that cube are Athanasia Nikolova’s: she conceived it, designed it, made the CAD, 3D-printed every part, and assembled the cube, mounting the motors and the boards herself. Her teammates made the wiring and the electronics boards, wrote the software, and brought the cube into operation.
 
 Cubi 1 brought the ideas that Cubi 2 keeps:
 
@@ -91,7 +91,7 @@ The full assemblies (the whole cube, and the cube with all its cables) are large
 
 ## How the documents are made
 
-The build documents (parts lists and step-by-step guides) are made with the help of **artificial intelligence**, and record how the cube was built here. Care went into the teaching side of them:
+The build documents (parts lists and step-by-step guides) record how the cube was built here. Their layout and written text were produced with the help of artificial intelligence, working from the model and from the real builds; the mechanical design, the parametric model, the colour system and the engineering decisions are my own. Care went into the teaching side of them:
 
 - a **colour code** that stays the same in every document - each board, wire and insert size has its own colour, chosen so that students with low vision or colour-blindness can tell them apart as well;
 - **images and diagrams** drawn from the real 3D model, with real colours, so that what students see on paper is what they hold in their hands;
