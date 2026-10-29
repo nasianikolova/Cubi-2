@@ -1,0 +1,38 @@
+Cubi 2 - where the models in CAD/hardware/ come from
+===================================================
+
+These models were made by other authors. They are NOT covered by the Cubi 2
+licences (LICENSE, LICENSE-CAD.md); each keeps its own licence, given below.
+Keep this file with them when you share them.
+
+
+1. Open electronics 3D library (STEP)
+   Source : github.com/KiCad/kicad-packages3D
+   Licence: CC BY-SA 4.0 with an exception - free to use in your designs; your
+            design does NOT have to take the same licence.
+
+   CP_Radial_D10.0mm_P5.00mm.step           electrolytic capacitor 220 uF / 50 V
+   D_DO-201AD_P15.24mm_Horizontal.step      TVS diode 1.5KE30CA
+   D_DO-41_SOD81_P10.16mm_Horizontal.step   small axial part (fuse, 10.16 pitch)
+   PinHeader_1x06_P2.54mm_Vertical.step     6-pin header
+
+2. mcu.step - the MCU board
+   Source : github.com/blackketter/teensy.pretty  (author: Zack Kummer)
+   Licence: MIT
+   Measured: 66.56 x 17.78 x 5.27 mm (the USB socket sticks out 4.08 mm).
+
+3. Bought parts, from their makers' published models
+   motor_src.step          the motor, as published by its maker
+   motor_driver_src.step   the motor driver, as published by its maker
+   imu.step                the IMU board, as published by its maker
+   These are used for fit and assembly only. Check each maker's terms before
+   you share them; if in doubt, leave them out and let users download them.
+
+4. Made for Cubi 2 (Cubi 2 licence, CC BY 4.0)
+   motor.step              motor_src.step with the real colours
+   motor_driver.step       motor_driver_src.step + its terminal block
+   bconn_male.step,
+   bconn_female.step       the battery connector pair, from its drawing
+   spacer_OD6_ID3.2_H1.step  ready-made IMU spacer (drawn for Cubi 2)
+   board_x.step, board_y.step, board_z.step, perfboard.step
+                           the three electronics boards
