@@ -1,0 +1,265 @@
+{
+  "runs": [
+    {
+      "date": "2026-10-22",
+      "day": "22 Oct",
+      "mode": "corner",
+      "seconds": 1.81,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-22",
+      "day": "22 Oct",
+      "mode": "corner",
+      "seconds": 2.33,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-22",
+      "day": "22 Oct",
+      "mode": "corner",
+      "seconds": 1.37,
+      "stoppedBy": "cubi",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-22",
+      "day": "22 Oct",
+      "mode": "corner",
+      "seconds": 2.07,
+      "stoppedBy": "cubi",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-22",
+      "day": "22 Oct",
+      "mode": "corner",
+      "seconds": 8.71,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": "first balance 8.7 s"
+    },
+    {
+      "date": "2026-10-22",
+      "day": "22 Oct",
+      "mode": "corner",
+      "seconds": 9.7,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-22",
+      "day": "22 Oct",
+      "mode": "corner",
+      "seconds": 25.49,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-22",
+      "day": "22 Oct",
+      "mode": "corner",
+      "seconds": 32.96,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-22",
+      "day": "22 Oct",
+      "mode": "corner",
+      "seconds": 53.15,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-22",
+      "day": "22 Oct",
+      "mode": "corner",
+      "seconds": 26.54,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-22",
+      "day": "22 Oct",
+      "mode": "corner",
+      "seconds": 38.17,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-22",
+      "day": "22 Oct",
+      "mode": "corner",
+      "seconds": 5.3,
+      "stoppedBy": "cubi",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-22",
+      "day": "22 Oct",
+      "mode": "corner",
+      "seconds": 4.78,
+      "stoppedBy": "cubi",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-23",
+      "day": "23 Oct",
+      "mode": "corner",
+      "seconds": 8.2,
+      "stoppedBy": "cubi",
+      "why": "",
+      "note": "new stiff IMU table"
+    },
+    {
+      "date": "2026-10-23",
+      "day": "23 Oct",
+      "mode": "corner",
+      "seconds": 1.43,
+      "stoppedBy": "cubi",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-23",
+      "day": "23 Oct",
+      "mode": "corner",
+      "seconds": 5.21,
+      "stoppedBy": "cubi",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-23",
+      "day": "23 Oct",
+      "mode": "corner",
+      "seconds": 10.79,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": "silicone mat"
+    },
+    {
+      "date": "2026-10-23",
+      "day": "23 Oct",
+      "mode": "corner",
+      "seconds": 130.26,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-23",
+      "day": "23 Oct",
+      "mode": "corner",
+      "seconds": 438.72,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-23",
+      "day": "23 Oct",
+      "mode": "corner",
+      "seconds": 156.83,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-23",
+      "day": "23 Oct",
+      "mode": "corner",
+      "seconds": 1073.49,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": "17.9 min"
+    },
+    {
+      "date": "2026-10-26",
+      "day": "26 Oct",
+      "mode": "corner",
+      "seconds": 5.0,
+      "stoppedBy": "cubi",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-26",
+      "day": "26 Oct",
+      "mode": "corner",
+      "seconds": 81.56,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-26",
+      "day": "26 Oct",
+      "mode": "corner",
+      "seconds": 75.74,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-26",
+      "day": "26 Oct",
+      "mode": "corner",
+      "seconds": 93.14,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-26",
+      "day": "26 Oct",
+      "mode": "corner",
+      "seconds": 97.0,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-10-26",
+      "day": "26 Oct",
+      "mode": "corner",
+      "seconds": 2.6,
+      "stoppedBy": "cubi",
+      "why": "",
+      "note": "lids on"
+    },
+    {
+      "date": "2026-10-26",
+      "day": "26 Oct",
+      "mode": "corner",
+      "seconds": 2.0,
+      "stoppedBy": "cubi",
+      "why": "",
+      "note": "new corner standoff"
+    },
+    {
+      "date": "2026-10-26",
+      "day": "26 Oct",
+      "mode": "corner",
+      "seconds": 150.0,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    }
+  ]
+}
