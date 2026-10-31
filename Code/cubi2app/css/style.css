@@ -1,0 +1,317 @@
+/* Cubi2 app - the same look as cubi2app.html (28/10/2026) */
+@import url('./fonts.css');
+:root {
+  --bar: #0b1733; --bar-ink: #eaf6fc; --bar-link: #8fb0d6;
+  --bg: #04070d;          /* night */
+  --panel: #0a1019;
+  --ink: #eaf6fc;         /* ice white */
+  --blue: #2456b8;        /* the opposite colour: text on ice */
+  --muted: #8ea6b8;       /* frosted */
+  --rule: #23323f;
+  --edge: #5d7486;        /* control outlines */
+  --accent: #eaf6fc;
+  --floor: #070c14; --grid: #34485c; --trail: #cfe9f6;
+  --f-display: "Roboto", Helvetica, Arial, sans-serif;
+  --f-body: "Roboto", Helvetica, Arial, sans-serif;
+  --f-mono: "Roboto Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box }
+html, body { height: 100% }
+html { background: var(--bar) }          /* (26/10) no light line above the bar */
+body { background: var(--bg); color: var(--ink); font: 14px/1.4 var(--f-body); margin: 0; overflow: hidden;
+  display: flex; flex-direction: column;
+  padding-left: max(12px, env(safe-area-inset-left, 0px)); padding-right: max(12px, env(safe-area-inset-right, 0px)); padding-block: 0 10px }
+.topbar { background: var(--bar); color: var(--bar-ink); flex: none;
+  margin-left: calc(-1 * max(12px, env(safe-area-inset-left, 0px))); margin-right: calc(-1 * max(12px, env(safe-area-inset-right, 0px)));
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 8px;
+  display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap }
+h1 { font: 600 21px/1.2 var(--f-display); margin: 0 }
+.topbar .sub { color: var(--bar-link); font-size: 13.5px; flex: 1; min-width: 0 }
+.bargroup { display: flex; align-items: center; gap: 10px; margin-left: auto; flex-wrap: wrap }
+.modes { display: inline-flex; border: 1px solid #34466e; border-radius: 4px; overflow: hidden }
+.modes button, .tbtn { border: 0; border-radius: 0; padding: 8px 14px; min-height: 38px; background: transparent; color: var(--bar-ink); font-size: 14px }
+.modes button:hover, .tbtn:hover { color: #fff; background: rgba(234, 246, 252, .08) }
+.modes button[aria-pressed="true"], .tbtn[aria-pressed="true"] { background: var(--ink); color: var(--blue) }
+.tbtn { border: 1px solid #34466e; border-radius: 4px; font: 600 13.5px var(--f-mono); letter-spacing: .02em }
+.app { flex: 1; min-height: 0; display: grid; grid-template-columns: clamp(232px, 21vw, 300px) minmax(0, 1fr) clamp(240px, 23vw, 330px); gap: 10px; padding-top: 10px }
+.col { display: flex; flex-direction: column; gap: 10px; min-height: 0; min-width: 0 }
+/* (26/10) responsive: a side column that does not fit scrolls by itself - nothing is ever cut off; in Live Cubi the link card comes first */
+.col { overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--edge) transparent }
+.col > .card { flex: none } .col > .card.grow { flex: 1 1 auto }
+#linkcard { order: -1 }
+.stage { position: relative; min-width: 0; min-height: 0; border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; background: var(--floor) }
+#view { display: block; width: 100%; height: 100%; touch-action: none }
+.hud { position: absolute; left: 10px; top: 10px; right: 10px; display: flex; flex-wrap: wrap; gap: 6px; pointer-events: none }
+.pill { font: 600 11.5px/1 var(--f-mono); letter-spacing: .06em; text-transform: uppercase; padding: 6px 8px; border-radius: 3px;
+  background: var(--panel); border: 1px solid var(--rule); color: var(--muted); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.pill.state { color: var(--ink); border-color: var(--ink) }
+.pill.state.moving { background: rgba(234, 246, 252, .12) } .pill.state.bad { background: var(--ink); color: var(--blue) }
+.legend { position: absolute; left: 10px; right: 10px; bottom: 8px; font: 11.5px var(--f-mono); color: var(--muted); pointer-events: none; text-align: center }
+.card { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 11px 12px; min-width: 0 }
+.label { font: 600 10.5px/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: 9px }
+.pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px }
+button { font: 600 13.5px var(--f-body); color: var(--ink); background: transparent; border: 1px solid var(--edge); border-radius: 4px; padding: 8px 4px; cursor: pointer }
+button:hover { border-color: var(--ink); background: rgba(234, 246, 252, .07) }
+button:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px }
+button.primary, .pad button[aria-pressed="true"] { background: var(--ink); color: var(--blue); border-color: var(--ink) }
+button.primary:hover, .pad button[aria-pressed="true"]:hover { background: #ffffff; color: var(--blue) }
+button.primary .k, .pad button[aria-pressed="true"] .k { color: var(--blue); opacity: .8 }
+.pad .wide { grid-column: span 2 } .pad .full { grid-column: 1 / -1 }
+/* (24/10) the Settings window: the balance point, the controller's settings, measurements, show / help */
+.term.setw { height: auto; width: min(380px, calc(100vw - 24px)); right: auto; left: 18px }
+/* (26/10) THE GUIDE: a calm, big window - one thing at a time. A moving picture on one side, a few short
+   sentences and big buttons on the other. "Bigger text" and "Read to me" for students who see less or tire
+   quickly; the pictures stand still for "reduce motion". */
+.gd { position: fixed; inset: 0; z-index: 20; background: rgba(4, 7, 13, .78); display: flex; align-items: center; justify-content: center; padding: 12px }
+.gd[hidden] { display: none }
+.gd-sheet { width: min(1060px, 100%); height: min(760px, 100%); display: flex; flex-direction: column; background: #0b1424; border: 1px solid var(--edge); border-radius: 14px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, .6); overflow: hidden; font-size: 17px; line-height: 1.5 }
+.gd.big .gd-sheet { font-size: 21px }
+.gd-top { display: flex; align-items: center; gap: 10px 14px; flex-wrap: wrap; padding: 10px 14px; border-bottom: 1px solid var(--rule); background: #0d1a36 }
+.gd-name { font: 600 20px var(--f-display) }
+.gd-dots { display: flex; gap: 6px; list-style: none; margin: 0; padding: 0; flex: 1; min-width: 0; flex-wrap: wrap }
+.gd-dots button { min-height: 40px; padding: 0 10px; border-radius: 999px; font-size: 14px; display: flex; align-items: center; gap: 6px; border-color: var(--rule); color: var(--muted) }
+.gd-dots button b { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; border: 2px solid currentColor; font-size: 13px }
+.gd-dots button span { display: none } .gd-dots button[aria-current="step"] span { display: inline }
+.gd-dots button.done { color: var(--ink) } .gd-dots button.done b { background: var(--ink); color: var(--blue); border-color: var(--ink) }
+.gd-dots button[aria-current="step"] { color: var(--blue); background: var(--ink); border-color: var(--ink) }
+.gd-tools { display: flex; gap: 6px; margin-left: auto }
+.gd-tools button { min-height: 40px; padding: 0 12px; font-size: 14px }
+.gd-tools .x { width: 44px; font: 400 26px/1 var(--f-body) }
+.gd-main { flex: 1; min-height: 0; display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr) }
+.gd-pic { background: #070c14; border-right: 1px solid var(--rule); display: flex; align-items: center; justify-content: center; padding: 18px; min-height: 0 }
+.gd-pic svg { width: 100%; height: 100%; max-height: 520px }
+.gd-body { overflow-y: auto; padding: 22px 26px 26px; min-height: 0 }
+.gd-body .kick { font: 600 13px var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 4px }
+.gd-body h2 { font: 600 1.6em/1.2 var(--f-display); margin: 0 0 10px }
+.gd-body h2:focus { outline: none }
+.gd-body .lead { font-size: 1.12em; margin: 0 0 14px; max-width: 34em }
+.gd-body p { margin: 0 0 12px; max-width: 34em }
+.gd-body .small { font-size: .88em; color: var(--muted) }
+.gd-body ol.do { margin: 6px 0 16px; padding: 0; list-style: none; counter-reset: d }
+.gd-body ol.do li { counter-increment: d; position: relative; padding: 8px 0 8px 48px; border-bottom: 1px solid var(--rule) }
+.gd-body ol.do li::before { content: counter(d); position: absolute; left: 0; top: 6px; width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: var(--blue); display: grid; place-items: center; font-weight: 700 }
+.gd-body .choices { display: grid; gap: 10px; margin: 10px 0 14px }
+.gd-body .choices.two { grid-template-columns: 1fr 1fr }
+.gd-body .choices button { text-align: left; min-height: 60px; padding: 12px 16px; font-size: 1em; display: flex; gap: 14px; align-items: center; border-radius: 10px; border-width: 2px }
+.gd-body .choices button .ic { flex: none; width: 54px; height: 54px }
+.gd-body .choices button span { display: block; min-width: 0 }
+.gd-body .choices button small { display: block; color: var(--muted); font-size: .84em; font-weight: 400; margin-top: 2px; line-height: 1.4 }
+.gd-body .choices button[aria-pressed="true"] { background: var(--ink); color: var(--blue); border-color: var(--ink) }
+.gd-body .choices button[aria-pressed="true"] small { color: #1d3f86 }
+.gd-body .q { margin: 16px 0 6px; font-weight: 700; font-size: 1.05em }
+.gd-body .nav { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px }
+.gd-body .nav button, .gd-body .act button { min-height: 52px; padding: 0 20px; font-size: 1em; border-radius: 10px }
+.gd-body button:disabled, .gd-body button.primary:disabled { opacity: 1; background: transparent; color: var(--muted); border: 2px dashed var(--rule); cursor: not-allowed }
+.gd-body .sim { border: 2px solid var(--rule); border-radius: 12px; padding: 12px 16px; margin: 10px 0; background: #070c14 }
+.gd-body .act { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0 12px }
+.gd-body .card2 { border: 2px solid var(--rule); border-radius: 12px; padding: 14px 16px; margin: 10px 0 }
+.gd-body .card2.best { border-color: var(--ink) }
+.gd-body .card2 .big { font: 600 1.5em var(--f-display); margin: 2px 0 }
+.gd-body .card2 .tag { display: inline-block; margin-left: 10px; padding: 1px 10px; border: 1.5px solid var(--ink); border-radius: 99px; font-size: .8em; vertical-align: 2px }
+.gd-body .card2 .res { margin: 6px 0 2px; font-weight: 600 }
+.gd-body details { margin: 8px 0 }
+.gd-body summary { cursor: pointer; color: var(--muted); font-size: .9em; min-height: 32px; display: flex; align-items: center }
+.gd-body details[open] summary { color: var(--ink) }
+.gd-body .stat { font: .8em/1.5 var(--f-mono); background: #070c14; border: 1px solid var(--rule); border-radius: 8px; padding: 10px 12px; margin: 8px 0; white-space: pre-wrap; word-break: break-word }
+.gd-body .stat:empty { display: none }
+.gd-body .res:empty { display: none }
+.gd-body ul.plain { list-style: none; padding: 0; margin: 8px 0 4px }
+.gd-body ul.plain li { position: relative; padding: 8px 0 8px 44px; border-bottom: 1px solid var(--rule) }
+.gd-body ul.plain li::before { position: absolute; left: 0; top: 6px; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-weight: 700 }
+.gd-body ul.plain li.fine::before { content: "✓"; border: 2px solid var(--ink); color: var(--ink) }
+.gd-body ul.plain li.todo::before { content: "!"; background: #ffcf6e; color: #0b1424 }
+.gd-body code.line { display: block; font: .72em/1.45 var(--f-mono); color: var(--muted); background: #070c14; border: 1px solid var(--rule); border-radius: 6px; padding: 8px 10px; margin: 6px 0; word-break: break-all }
+.gd-body ul.chg { margin: 4px 0 10px 20px; padding: 0 }
+.gd-body .navels { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 10px 0 }
+.gd-body .navels button { min-height: 52px; font-size: .95em; border-radius: 10px }
+.gd-body label.f { display: block; font-size: .9em; color: var(--muted); margin: 10px 0 4px }
+.gd-body input.f, .gd-body select.f { width: 100%; min-height: 48px; box-sizing: border-box; background: #070c14; color: var(--ink); border: 1px solid var(--edge); border-radius: 8px; padding: 0 10px; font: 1em var(--f-body) }
+.gd-body .ask { border: 2px solid var(--ink); border-radius: 12px; padding: 12px 16px; margin: 0 0 16px; background: #0d1a36 }
+.gd-body .ask[hidden] { display: none }
+.gd-body .ask b { display: block; font-size: .8em; letter-spacing: .06em; text-transform: uppercase; color: var(--muted) }
+.gd-body .ask .act button { min-width: 110px }
+.gd-body .rule6 { margin: 8px 0 16px; padding: 0; list-style: none }
+.gd-body .rule6 li { padding: 8px 0 8px 40px; position: relative; border-bottom: 1px solid var(--rule) }
+.gd-body .rule6 li::before { content: "✓"; position: absolute; left: 6px; top: 6px; font-size: 1.2em; color: #ffcf6e }
+.gd-body .rs { border-left: 4px solid var(--rule); padding: 6px 0 8px 14px; margin: 12px 0 }
+.gd-body .rs.big { border-left-color: #ffcf6e }
+.gd-body .rs b { font-size: 1.05em }
+.gd-body .rs div { margin: 2px 0 }
+.gd-body .rs .res { color: #ffcf6e }
+@media (max-width: 760px) { .gd-main { grid-template-columns: 1fr; grid-template-rows: 34% 1fr } .gd-pic { border-right: 0; border-bottom: 1px solid var(--rule); padding: 8px }
+  .gd-dots { order: 2; flex-basis: 100% } .gd-dots button[aria-current="step"] span { display: none } .gd-body { padding: 16px } .gd-body .choices.two { grid-template-columns: 1fr } .gd-name { display: none } }
+@media (max-height: 640px) { .gd-sheet { font-size: 16px } .gd-body h2 { font-size: 1.4em } }
+@media (prefers-reduced-motion: reduce) { .gd svg * { animation: none !important } }
+.askbar { position: absolute; left: 10px; right: 10px; bottom: 10px; z-index: 3; background: var(--panel); border: 1px solid var(--ink); border-radius: 6px; padding: 10px 12px; box-shadow: 0 12px 32px rgba(0, 0, 0, .45) }
+.askbar[hidden] { display: none }
+.askbar .ask-k { font: 600 11.5px var(--f-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted) }
+.askbar p { margin: 4px 0 8px; font-size: 14px; line-height: 1.45 }
+.askbar .ask-b { display: flex; gap: 8px }
+.askbar .ask-b button { min-height: 44px; min-width: 96px; font-size: 15px }
+.ask-raw { margin: 0 0 8px } .ask-raw summary { cursor: pointer; font-size: 12.5px; color: var(--muted); min-height: 28px; display: flex; align-items: center }
+.ask-raw #ask-rawt, .ask-raw .rawlines { font: 12px/1.45 var(--f-mono); color: var(--muted); white-space: pre-wrap; word-break: break-word }
+.askbar p { font-size: 15px }
+.askbar .ask-b button { min-width: 0; padding: 0 14px }
+.lastcard ul.plain { list-style: none; margin: 0 0 6px; padding: 0; font-size: 13.5px; line-height: 1.4 }
+.lastcard ul.plain li { position: relative; padding: 4px 0 4px 26px }
+.lastcard ul.plain li::before { position: absolute; left: 0; top: 4px; width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700 }
+.lastcard ul.plain li.fine::before { content: "✓"; border: 1.5px solid var(--ink) }
+.lastcard ul.plain li.todo::before { content: "!"; background: #ffcf6e; color: #0b1424 }
+.lastcard ul.plain li.note { padding-left: 0 }
+.lastnext { border-top: 1px solid var(--rule); padding-top: 8px; margin-top: 4px; font-size: 13.5px; line-height: 1.4 }
+.lastnext:empty { display: none }
+.lastnext p { margin: 4px 0 8px } .lastnext button { min-height: 40px; margin: 2px 6px 2px 0 } .lastnext .small { font-size: 12.5px; color: var(--muted) }
+.askbar .ask-road { font-size: 12.5px; color: var(--muted); margin: -2px 0 8px }
+/* (26/10) the question: what happened (bold), what to look at, the buttons, then what the answer does; a small picture beside it */
+.ask-in { display: flex; gap: 12px; align-items: flex-start }
+.ask-main { flex: 1; min-width: 0 }
+.ask-pic { flex: 0 0 96px } .ask-pic svg { width: 96px; height: 72px; display: block }
+.ask-pic[hidden] { display: none }
+.ask-tt { font-weight: 700; margin: 4px 0 2px !important }
+.ask-note { font-size: 13px !important; color: var(--muted); margin: 8px 0 4px !important }
+.ask-note[hidden], .ask-tt[hidden] { display: none }
+.gd-body .ask .ask-pic { flex-basis: 120px } .gd-body .ask .ask-pic svg { width: 120px; height: 90px }
+@media (max-width: 520px) { .ask-pic { display: none } }
+.routebar { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; align-items: center }
+.routebar button { min-height: 40px; padding: 0 12px }
+.routebar span { font-size: 12.5px; color: var(--muted) }
+.setw .part { border-top: 1px solid var(--rule); padding: 10px 0 12px }
+.setw .part h3 { font: 600 14px var(--f-body); margin: 0 0 4px }
+.setw .note { font-size: 12.5px; color: var(--muted); line-height: 1.45; margin: 0 0 8px }
+.setw .pad button { min-height: 44px }
+/* (31/10) the test weight row of the Settings window - the code used to write these in */
+.setw .weight-note { margin-top: 10px }
+.setw .row2 { display: flex; gap: 6px; align-items: center }
+.setw .row2 .note { margin: 0 }
+.setw .row2 input, .setw .row2 select { min-height: 40px; background: var(--bg); color: var(--ink);
+  border: 1px solid var(--edge); border-radius: 4px; font: 13px var(--f-mono) }
+.setw .row2 input { width: 64px; padding: 0 8px }
+.setw .row2 select { padding: 0 6px }
+.setw .row2 button { flex: 1; min-height: 40px }
+.pad .k { font: 11px var(--f-mono); color: var(--muted); display: block; font-weight: 400 }
+.rows { display: grid; gap: 2px }
+.conns { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px }
+.conns button { padding: 6px 2px; min-height: 44px; font: 600 14px var(--f-mono) }   /* (24/10) a finger's size, like the other buttons */
+.conns button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--blue) }
+/* label and number on one line, the slider under them across the whole panel (a long track for a finger) */
+.row { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "l o" "r r"; align-items: end; column-gap: 12px; font-size: 13.5px; line-height: 1.1 }
+.row input { grid-area: r } .row output { grid-area: o }
+.row output { font: 12px var(--f-mono); text-align: right; font-variant-numeric: tabular-nums }
+/* touch: a 40 px tall target, a 26 px thumb, room at both ends so the thumb never touches the label or the number */
+input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 40px; margin: 0; padding: 0 13px;
+  background: transparent; cursor: pointer; touch-action: none }
+input[type=range]::-webkit-slider-runnable-track { height: 4px; border-radius: 2px; background: var(--edge) }
+input[type=range]::-moz-range-track { height: 4px; border-radius: 2px; background: var(--edge) }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 26px; height: 26px; margin-top: -11px;
+  border-radius: 50%; background: var(--ink); border: 3px solid var(--panel); box-shadow: 0 0 0 1px var(--edge) }
+input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: var(--ink);
+  border: 3px solid var(--panel); box-shadow: 0 0 0 1px var(--edge) }
+input[type=range]:active::-webkit-slider-thumb { transform: scale(1.12) }
+input[type=range]:focus-visible { outline: 1px solid var(--edge); outline-offset: -1px; border-radius: 4px }
+input[type=range]:disabled { opacity: .4 }
+.cmd { display: flex; gap: 6px }
+.cmd input { flex: 1; min-width: 0; font: 13px var(--f-mono); padding: 9px 8px; border: 1px solid var(--edge); border-radius: 4px; background: var(--bg); color: var(--ink) }
+.cmd input::placeholder { color: var(--muted) }
+.cmd button { padding: 8px 12px }
+.grow { flex: 1; min-height: 0; display: flex; flex-direction: column }
+.read { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; font-variant-numeric: tabular-nums }
+.read.battery { margin-top: 6px }   /* (31/10) was written into the page by the code before */
+.read div { font: 11.5px var(--f-mono); color: var(--muted); min-width: 0 }
+.read strong { display: block; font: 600 16px var(--f-mono); color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis }
+.chartwrap { position: relative; flex: 1; min-height: 120px; max-height: 340px }
+#chart { display: block; width: 100%; height: 100% }
+.keys b { font-weight: 400 }
+.keys { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-top: 6px; font: 12px var(--f-mono); font-variant-numeric: tabular-nums }
+.keys svg { vertical-align: middle; margin-right: 5px }
+.linkstate { font: 12px var(--f-mono); color: var(--muted); margin-top: 7px }
+.linkstate.ok { color: var(--ink) } .linkstate.bad { color: var(--ink); text-decoration: underline; text-underline-offset: 3px }
+.hint { font-size: 12.5px; color: var(--muted); line-height: 1.45 }
+.hint b { color: var(--ink) }
+/* the terminal: a small window over the page, moved by its title bar */
+.term { position: fixed; z-index: 10; top: 64px; right: 18px; width: min(470px, calc(100vw - 24px)); height: min(430px, calc(100vh - 90px));
+  display: flex; flex-direction: column; background: var(--panel); border: 1px solid var(--edge); border-radius: 6px;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, .6); padding: 0 12px 12px }
+.term[hidden] { display: none }
+.termbar { display: flex; align-items: center; justify-content: space-between; cursor: move; touch-action: none; padding: 6px 0 4px; user-select: none }
+.termbar .label { margin: 0 }
+.term .x { width: 40px; height: 36px; padding: 0; font: 400 22px/1 var(--f-body); border-color: transparent }
+/* (24/10) the Update window: new programs over the Wi-Fi */
+.upd { height: auto; max-height: calc(100vh - 90px); width: min(440px, calc(100vw - 24px)); right: auto; left: 50%; transform: translateX(-50%); overflow-y: auto }
+.upd.moved { transform: none }
+.upd .part { border-top: 1px solid var(--rule); padding: 10px 0 12px }
+.upd .part h3 { font: 600 14px var(--f-body); margin: 0 0 6px }
+.upd .row2 { display: flex; gap: 8px; align-items: center }
+.upd .pick { flex: 1; min-width: 0; display: flex; align-items: center; min-height: 40px; padding: 0 10px; border: 1px dashed var(--edge); border-radius: 4px; cursor: pointer;
+  font: 12.5px var(--f-mono); color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.upd .pick.has { color: var(--ink); border-style: solid }
+.upd input[type=file] { position: absolute; width: 1px; height: 1px; opacity: 0 }
+.upd .go { min-height: 40px; padding: 0 14px }
+.upd .bar { height: 6px; border-radius: 3px; background: var(--rule); margin-top: 10px; overflow: hidden }
+.upd .bar i { display: block; height: 100%; width: 0; background: var(--ink); transition: width .2s }
+.upd .st { font: 12px var(--f-mono); color: var(--muted); margin-top: 6px; min-height: 1.5em; white-space: pre-wrap }
+.upd .note { font-size: 12.5px; color: var(--muted); line-height: 1.45; margin: 2px 0 6px }
+.log { flex: 1; min-height: 40px; font: 12.5px/1.5 var(--f-mono); color: var(--muted); overflow-y: auto; margin: 2px 0 10px; white-space: pre-wrap; word-break: break-word }
+.log b { color: var(--ink); font-weight: 600 }
+[data-kind][hidden] { display: none !important }
+@media (max-height: 900px) and (min-width: 861px) { .hintcard { display: none } }
+/* (24/10) short laptop screens: a little less air, the touch targets stay >= 36 px */
+@media (max-height: 760px) and (min-width: 861px) { .card { padding: 8px 12px } .label { margin-bottom: 7px } .app, .col { gap: 8px }
+  input[type=range] { height: 36px } .pad .k { font-size: 10px } }
+/* (24/10) very short screens (laptop ~1366x650 inside the browser): the small key lines go, the buttons stay >= 40 px */
+@media (max-height: 690px) and (min-width: 861px) { .pad .k { display: none } .pad button { min-height: 40px } .conns button { min-height: 40px }
+  input[type=range] { height: 34px } .card { padding: 6px 12px } .label { margin-bottom: 5px } .app, .col { gap: 6px } .app { padding-top: 6px } }
+@media (max-width: 1180px) { .topbar .sub { display: none } }
+@media (max-width: 1280px) and (min-width: 861px) { .modes button, .tbtn { padding: 7px 10px } .bargroup { gap: 8px } }
+@media (max-width: 1080px) and (min-width: 861px) { .app { grid-template-columns: clamp(220px, 24vw, 252px) minmax(0, 1fr) clamp(220px, 25vw, 280px) } h1 { font-size: 19px } }
+/* (26/10) laptop heights, when the column is wide enough: a slider row on one line (name | slider | value) */
+@media (max-height: 820px) and (min-width: 1340px) { .row { grid-template-columns: 74px minmax(0, 1fr) auto; grid-template-areas: "l r o"; align-items: center }
+  .row input { min-width: 0 } .rows { gap: 0 } }
+@media (max-width: 860px) {
+  body { overflow: auto; height: auto } .app { grid-template-columns: 1fr; padding-bottom: 10px } .col { overflow: visible }
+  .stage { height: 62vh; min-height: 320px } .chartwrap { height: 160px; flex: none }
+}
+body { margin: 0 } [hidden] { display: none !important }
+/* (31/10) the Runs window: ALL RUNS and THE LAST RUN, big, over the page - it does not move */
+.term.runsw { top: 64px; right: 18px; bottom: 14px; left: 18px; width: auto; height: auto; z-index: 12; padding: 0 18px 14px }
+.runsw .termbar { cursor: default; gap: 14px; justify-content: flex-start; padding: 8px 0 10px; border-bottom: 1px solid var(--rule) }
+.runsw .tabs { display: inline-flex; border: 1px solid #34466e; border-radius: 4px; overflow: hidden }
+.runsw .tabs button { border: 0; border-radius: 0; padding: 7px 14px; min-height: 36px; font-size: 14px }
+.runsw .tabs button[aria-pressed="true"] { background: var(--ink); color: var(--blue) }
+.runsw .x { margin-left: auto }
+.runs-title { display: flex; align-items: center; gap: 12px; padding: 14px 4px 6px }
+.runs-title h2 { font: 700 20px var(--f-body); margin: 0; color: var(--ink); white-space: pre }
+.runs-pill { margin-left: auto; font: 500 14px var(--f-mono); padding: 7px 12px; border-radius: 4px; color: var(--ink); white-space: pre }
+.runs-pill.count { background: var(--blue) }
+.runs-pill.stopped { background: #8a2f2b }   /* Cubi stopped itself */
+.runs-pill.hand { background: #2a8080 }      /* stopped on purpose */
+.runs-body { flex: 1; min-height: 0; display: flex }
+.runs-pane { flex: 1; min-width: 0; display: flex; gap: 22px }
+.runs-charts { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px }
+.runs-chart { display: block; flex: 1; min-height: 0; width: 100% }
+.runsw .readouts { flex: none; width: 210px; display: flex; flex-direction: column; justify-content: space-around; padding: 10px 0 }
+.runsw .readouts div { color: var(--muted); font-size: 13px }
+.runsw .readouts strong { display: block; font: 600 34px/1.15 var(--f-mono); color: var(--ink); margin: 4px 0 }
+/* the drawings: only the places are in run-charts.js, the look is here */
+.runs-chart .frame { fill: var(--panel); stroke: var(--rule) }
+.runs-chart .grid { stroke: var(--rule) }
+.runs-chart .chart-label { fill: var(--muted); font: 700 13px var(--f-body) }
+.runs-chart .tick { fill: var(--muted); font: 12px var(--f-mono); text-anchor: middle }
+.runs-chart .tick.to-left { text-anchor: end }
+.runs-chart .axis-name { fill: var(--muted); font: 13px var(--f-body); text-anchor: middle }
+.runs-chart .empty { fill: var(--muted); font: 14px var(--f-body); text-anchor: middle }
+.runs-chart .day { fill: var(--ink); font: 700 16px var(--f-body); text-anchor: middle }
+.runs-chart .day-line { stroke: var(--muted); stroke-dasharray: 4 4 }
+.runs-chart .run-line { fill: none; stroke: var(--ink); stroke-width: 2.2 }
+.runs-chart .dot { stroke: var(--ink); stroke-width: 2.2 }
+.runs-chart .dot.hand { fill: var(--ink) }     /* still standing: stopped by hand */
+.runs-chart .dot.cubi { fill: var(--panel) }   /* Cubi stopped itself */
+.runs-chart .key { fill: var(--ink); font: 13.5px var(--f-body) }
+.runs-chart .key.mono { font: 13px var(--f-mono) }
+.runs-chart .note { fill: var(--ink); font: 13px var(--f-body); text-anchor: middle; paint-order: stroke; stroke: var(--panel); stroke-width: 5px; stroke-linejoin: round }
+.runs-chart .note-line { stroke: var(--muted) }
+.runs-chart .reading { fill: none; stroke: var(--ink); stroke-width: 1.8 }
+.runs-chart .key-line { stroke: var(--ink); stroke-width: 2 }
+.runs-chart .axis-y { stroke-dasharray: 6 4 }    /* X solid, Y dashed, Z dotted - as on the wheels card */
+.runs-chart .axis-z { stroke-dasharray: 1.5 3 }
