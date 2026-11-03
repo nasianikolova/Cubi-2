@@ -6,13 +6,13 @@ Cubi 2 is a self-balancing cube for the classroom. Three reaction wheels, one on
 
 Cubi 2 is designed in parametric code: one model makes the mechanical build, the three electronics boards, every cable and the printed documents. The numbers - dimensions, clearances, screws, inserts, print settings, weights - come from tests and from real builds and prints, not from theory alone.
 
-This repository holds the **CAD files** (STEP). The build documents and the source code will be published later.
+This repository holds the **CAD files** (STEP and STL), the **build guides** (PDF) and the **Cubi 2 app** (code). The parametric model itself is not part of this repository.
 
 > **This repository is a record of what was designed and built, not an instruction to build it.** Before you use anything here, read `DISCLAIMER.md` and `RESPECT.md`.
 
 ## Cubi 1 and Cubi 2
 
-Cubi 2 grows out of Cubi 1, the first cube, built by a team at a space programme in Sofia, 2026. The idea and the whole mechanical design of that cube are Athanasia Nikolova’s: she conceived it, designed it, made the CAD, 3D-printed every part, and assembled the cube, mounting the motors and the boards herself. Her teammates made the wiring and the electronics boards, wrote the software, and brought the cube into operation.
+Cubi 2 grows out of Cubi 1, the first cube, built by a team at a space program in Sofia, 2026. The idea and the whole mechanical design of that cube are Athanasia Nikolova’s: she conceived it, designed it, made the CAD, 3D-printed every part, and assembled the cube, mounting the motors and the boards herself. Her teammates made the wiring and the electronics boards, wrote the software, and brought the cube into operation.
 
 Cubi 1 brought the ideas that Cubi 2 keeps:
 
@@ -29,13 +29,13 @@ Cubi 2 adds:
 
 ## SpaceInClass
 
-SpaceInClass is an initiative by Athanasia Nikolova from Veria, Greece. It began at the **CASSINI Space Camp 2025** in Thessaloniki, Greece, where she and her team designed and assembled an 8U CubeSat model and planned its mission. The aim of SpaceInClass is to bring real space engineering into schools through *spaceLabs*, where students build, program and operate their own hardware. Cubi 2 is one of the projects made for the spaceLabs.
+SpaceInClass is an initiative by Athanasia Nikolova. She first presented it at the **CASSINI Space Camp 2025** in Thessaloniki, Greece, where she and her team designed and assembled an 8U CubeSat model and planned its mission. The aim of SpaceInClass is to bring real space engineering into schools through *SpaceLabs*, where students build, program and operate their own hardware. Cubi 2 is one of the projects made for the SpaceLabs.
 
-SpaceInClass is an independent initiative. It is not affiliated with or endorsed by the CASSINI Space Camp or its organisers.
+SpaceInClass is written entirely in English and is open to every school in the world. It is an independent initiative. It is not affiliated with or endorsed by the CASSINI Space Camp or its organizers.
 
 ### Why
 
-> I want to bring knowledge into schools in a different way: more fun, with practical work while students learn the theory. I want to bring collaboration, so that already at school each of us can find the field they are good at. Students do not need to know everything. They can specialise, build teams and work together.
+> I want to bring knowledge into schools in a different way: more fun, with practical work while students learn the theory. I want to bring collaboration, so that already at school each of us can find the field they are good at. Students do not need to know everything. They can specialize, build teams and work together.
 >
 > Many children are bored in class. They cannot concentrate, they are not interested. Maybe I was like that once. Maybe these children are out there.
 >
@@ -52,9 +52,26 @@ Both Cubi 1 and Cubi 2 stand on the shoulders of the **Cubli**, the cube that ca
 
 Cubi 2 is an independent project: it is not affiliated with or endorsed by the original authors or ETH Zurich.
 
-## What has been tried, and what has not
+## What has been tested
 
-The printing, the assembly and the documentation of Cubi 2 have been tried out on real builds: the parts were printed, the cube was put together, and the guides were used to do it. **The operation has not been tested yet** - that comes next. The numbers in this repository come from those builds, but they may still contain errors; check them against your own parts and printer.
+The printing, the assembly and the documentation of Cubi 2 have been tried out on real builds: the parts were printed, the cube was put together, and the guides were used to do it.
+
+The operation has been tested too. In **29 recorded runs** on 22, 23 and 26 October 2026, Cubi 2 went from **1.4 seconds to 17.9 minutes** balancing on its corner. The 17.9-minute run was stopped by hand, with the cube still standing. Every run is kept in `Code/cubi2app/data/runs.json`.
+
+The first tests of the **sphere** are done: it holds on its own and made a first short move.
+
+The numbers in this repository come from those builds and tests, but they may still contain errors; check them against your own parts and printer.
+
+### What the tests changed
+
+- **The battery column.** The gyroscope (IMU) now sits inside a stiff plate, so the small moves of the battery no longer reach it.
+- **The standoff at corner 0.** It broke when Cubi fell from my hands; the new one has ribs.
+- **The hanging plate** (`CAD/Prints/hang_plate`). Cubi hangs from corner 0 and settles, and the app reads the new balance point.
+
+### Next version
+
+- The USB sockets of the boards reachable from outside the cube.
+- A place for balance weights.
 
 ## A different direction: the sphere
 
@@ -78,24 +95,29 @@ This is a statement of intentions, not of results: I announce no discovery.
 
 ```
 CAD/
-  print/       the parts that were PRINTED here - box, cage corners and beams,
+  Prints/      the parts that were PRINTED here - box, cage corners and beams,
                cover, reaction wheel, sphere arcs and connector, battery mounts,
-               magnet carrier, cable clamp, standoffs (STEP, as printed)
-  hardware/    what was BOUGHT and BUILT - motors, motor drivers, IMU, MCU board,
+               magnet carrier, cable clamps, standoffs, hanging plate
+               (STEP and STL, as printed)
+  Hardware/    what was BOUGHT and BUILT - motors, motor drivers, IMU, MCU board,
                battery connectors, spacers, and the three electronics boards
                that were soldered (STEP)
-               SOURCES.txt = where each third-party model comes from + its licence
+               SOURCES.txt = where each third-party model comes from + its license
+Code/
+  cubi2app/    the Cubi 2 app - Simulation and Live, in plain JavaScript
+               (how to start it: Code/cubi2app/README.md)
+Documents/     the build guides and the materials list (PDF), and the version history
 ```
 
 The full assemblies (the whole cube, and the cube with all its cables) are larger than GitHub allows for one file (over 100 MB); they will be shared separately.
 
 ## How the documents are made
 
-The build documents (parts lists and step-by-step guides) record how the cube was built here. Their layout and written text were produced with the help of artificial intelligence, working from the model and from the real builds; the mechanical design, the parametric model, the colour system and the engineering decisions are my own. Care went into the teaching side of them:
+The build documents (parts lists and step-by-step guides) record how the cube was built here. Their layout and written text were produced with the help of artificial intelligence, working from the model and from the real builds; the mechanical design, the parametric model, the color system and the engineering decisions are my own. Care went into the teaching side of them:
 
-- a **colour code** that stays the same in every document - each board, wire and insert size has its own colour, chosen so that students with low vision or colour-blindness can tell them apart as well;
-- **images and diagrams** drawn from the real 3D model, with real colours, so that what students see on paper is what they hold in their hands;
-- large print and short steps, so that every student can follow them.
+- a **color code** that stays the same in every document - each board, wire and insert size has its own color, chosen so that students with low vision or color-blindness can tell them apart as well;
+- **images and diagrams** drawn from the real 3D model, with real colors, so that what students see on paper is what they hold in their hands;
+- one action per page, short steps and readable contrast, so that every student can follow them.
 
 The aim is simple: to make the engineering **easier to understand** for students. The documents are reviewed, but they may contain mistakes - read them together with `DISCLAIMER.md`.
 
@@ -103,23 +125,23 @@ The aim is simple: to make the engineering **easier to understand** for students
 
 These are the rules the project follows, and the state the files are in:
 
-- The **printed parts** in `CAD/print/` are the parts as printed; the parts in `CAD/hardware/` keep their original colours.
+- The **printed parts** in `CAD/Prints/` are the parts as printed; the parts in `CAD/Hardware/` keep their original colors.
 - The **cage and the box are fixed**: they are already printed, so no later change moves them, not even by 0.001 mm.
 - **Cables** run only on the cable roads: under the boards, along the three edges at corner 0, and on the sides of the corner-0 triangle. Power wires lie under the signal wires; no wire crosses another on a board; every wire gets under a board across a side, between that side's two standoffs.
-- **Documents** are in large print, with real colours, readable by low-vision students.
+- **Documents** have one action per page, real colors and readable contrast, also for low-vision students.
 - Everything is in English.
 
 ## Units and frames
 
-Millimetres; Corner 0 of the box is the origin; the three motor faces are x, y and z, with the wheels towards -x, -y and -z.
+Millimeters; Corner 0 of the box is the origin; the three motor faces are x, y and z, with the wheels toward -x, -y and -z.
 
-## Licence
+## License
 
 Cubi 2 is **free for everyone**, as long as the name **Cubi 2** and its authors are credited.
 
-- **Code** (published later, and any code added to the project): **MIT** - see `LICENSE`.
+- **Code** (the Cubi 2 app, and any code added to the project): **MIT** - see `LICENSE`.
 - **CAD, drawings, documents, images**: **CC BY 4.0** - see `LICENSE-CAD.md`. Credit line: *Based on Cubi 2 by Athanasia Nikolova / SpaceInClass, CC BY 4.0.*
-- **Third-party models** in `CAD/hardware/` keep their own licences - see `CAD/hardware/SOURCES.txt`.
+- **Third-party models** in `CAD/Hardware/` keep their own licenses - see `CAD/Hardware/SOURCES.txt`.
 
 ## Disclaimer, respect and safety
 
