@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cubi 2 - How to Start</title>
+<style>
+/* Cubi 2 - the instructions that go with the firmware zip (26/10/2026).
+   Written for high-school students: short sentences, one idea at a time, a moving picture for each part.
+   "Bigger text", "Dark" and "Read this" help students who see less or tire quickly. Pictures stand still
+   with "reduce motion". Opens in any browser, no internet needed. */
+:root { --bg: #f7f9fc; --card: #ffffff; --ink: #14213d; --mut: #4f5d78; --rule: #d5deec; --acc: #c25e00; --acc2: #fff1d6; --blue: #2456b8;
+  --f1: #c9d8f0; --f2: #a9bfe3; --f3: #8aa6d6; --wheel: #2456b8; color-scheme: light }
+:root.dark { --bg: #070c14; --card: #0b1424; --ink: #eaf6fc; --mut: #9fb2c4; --rule: #23323f; --acc: #ffcf6e; --acc2: #2a2412; --blue: #8fb0d6;
+  --f1: #2b3f66; --f2: #1d2c4b; --f3: #15213a; --wheel: #8fb0d6; color-scheme: dark }
+* { box-sizing: border-box }
+html { background: var(--bg) }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 18px/1.6 "Atkinson Hyperlegible", "Segoe UI", Helvetica, Arial, sans-serif }
+body.big { font-size: 22px }
+.top { position: sticky; top: 0; z-index: 5; background: var(--card); border-bottom: 1px solid var(--rule); padding: 8px 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px }
+.top b { font-size: 1.05em; margin-right: auto }
+button { font: 700 .9em/1 inherit; font-family: inherit; color: var(--ink); background: var(--card); border: 2px solid var(--rule); border-radius: 10px; min-height: 44px; padding: 0 14px; cursor: pointer }
+button:hover { border-color: var(--ink) }
+button:focus-visible, a:focus-visible { outline: 3px solid var(--acc); outline-offset: 2px }
+button[aria-pressed="true"] { background: var(--ink); color: var(--card); border-color: var(--ink) }
+nav.toc { max-width: 860px; margin: 18px auto 0; padding: 0 16px; display: flex; flex-wrap: wrap; gap: 8px }
+nav.toc a { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 999px; background: var(--card); border: 2px solid var(--rule); color: var(--ink); text-decoration: none; font-weight: 700; font-size: .85em }
+nav.toc a i { font-style: normal; display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--ink); color: var(--card); font-size: .85em }
+main { max-width: 860px; margin: 0 auto; padding: 8px 16px 60px }
+header.hero { max-width: 860px; margin: 0 auto; padding: 28px 16px 4px }
+header.hero h1 { font-size: 2em; line-height: 1.15; margin: 0 0 8px }
+header.hero p { margin: 0; color: var(--mut); max-width: 36em }
+section { background: var(--card); border: 1px solid var(--rule); border-radius: 16px; margin: 22px 0; padding: 22px 24px; scroll-margin-top: 70px }
+section > .head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 6px }
+section h2 { font-size: 1.45em; line-height: 1.2; margin: 0; flex: 1; min-width: 12em }
+section h2 i { font-style: normal; display: inline-grid; place-items: center; width: 1.6em; height: 1.6em; margin-right: 10px; border-radius: 50%; background: var(--ink); color: var(--card); font-size: .8em; vertical-align: .1em }
+.say { min-height: 40px; font-size: .8em }
+.lead { font-size: 1.1em; margin: 6px 0 12px }
+figure { margin: 10px 0 16px; background: var(--bg); border: 1px solid var(--rule); border-radius: 14px; padding: 12px; display: flex; justify-content: center }
+figure svg { width: 100%; max-width: 520px; height: auto; color: var(--ink) }
+p { margin: 0 0 12px; max-width: 38em }
+ul.do { list-style: none; padding: 0; margin: 8px 0 16px }
+ul.do li { position: relative; padding: 10px 0 10px 32px; border-bottom: 1px solid var(--rule) }
+ul.do li::before { content: ""; position: absolute; left: 8px; top: calc(10px + 0.55em); width: 10px; height: 10px; border-radius: 50%; background: var(--ink) }
+ul.ok { list-style: none; padding: 0; margin: 8px 0 16px }
+ul.ok li { position: relative; padding: 8px 0 8px 40px; border-bottom: 1px solid var(--rule) }
+ul.ok li::before { content: "✓"; position: absolute; left: 6px; top: 6px; font-size: 1.2em; color: var(--acc); font-weight: 700 }
+.warn { display: flex; gap: 14px; align-items: flex-start; background: var(--acc2); border: 2px solid var(--acc); border-radius: 12px; padding: 14px 16px; margin: 12px 0 }
+.warn b.ic { flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--acc); color: var(--card); font-size: 1.2em }
+.keys { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0 14px }
+.keys div { background: var(--bg); border: 2px solid var(--rule); border-radius: 12px; padding: 8px 14px }
+.keys div span { display: block; font-size: .75em; color: var(--mut) }
+.keys div b { font-size: 1.2em; font-family: ui-monospace, Menlo, Consolas, monospace }
+code, kbd { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .92em; background: var(--bg); border: 1px solid var(--rule); border-radius: 6px; padding: 1px 6px }
+.q { display: block; background: var(--bg); border-left: 5px solid var(--acc); border-radius: 8px; padding: 10px 14px; margin: 8px 0 14px; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: .85em }
+table { border-collapse: collapse; width: 100%; margin: 8px 0 14px }
+th, td { text-align: left; vertical-align: top; padding: 10px 8px; border-bottom: 1px solid var(--rule) }
+th { font-size: .8em; color: var(--mut); text-transform: uppercase; letter-spacing: .05em }
+td:first-child { white-space: nowrap }
+.tablewrap { overflow-x: auto }
+.small { font-size: .88em; color: var(--mut) }
+details { margin: 8px 0 }
+summary { cursor: pointer; font-weight: 700; min-height: 40px; display: flex; align-items: center }
+.foot { text-align: center; color: var(--mut); font-size: .85em; margin: 30px 0 0 }
+@media (max-width: 560px) { section { padding: 18px 16px } td:first-child { white-space: normal } }
+@media (prefers-reduced-motion: reduce) { svg * { animation: none !important } }
+</style>
+</head>
+<body>
+<div class="top">
+  <b>Cubi 2 · How to start</b>
+  <button id="t-big" aria-pressed="false">Bigger text</button>
+  <button id="t-dark" aria-pressed="false">Dark</button>
+</div>
+
+<header class="hero">
+  <h1>Cubi 2: how to start</h1>
+  <p>Firmware 2026110501 (5 November 2026); the cube shows its version in its first line, and in <code>show</code>. Read one part at a time. Each part has a picture that moves, and a button that reads it to you.</p>
+</header>
+
+<nav class="toc" aria-label="The parts">
+  <a href="#box"><i>1</i>What is in the zip</a>
+  <a href="#upload"><i>2</i>Put the program on Cubi</a>
+  <a href="#connect"><i>3</i>Connect the app</a>
+  <a href="#asks"><i>4</i>Cubi always asks</a>
+  <a href="#after"><i>5</i>After every try</a>
+  <a href="#world"><i>6</i>Cubi notices the world</a>
+  <a href="#guide"><i>7</i>The Guide in the app</a>
+  <a href="#route"><i>8</i>Draw a route</a>
+  <a href="#commands"><i>9</i>Commands</a>
+  <a href="#road"><i>10</i>The road to 18 minutes</a>
+  <a href="#first"><i>11</i>Your first test</a>
+  <a href="#safety"><i>12</i>Safety</a>
+</nav>
+
+<main>
+
+<section id="box">
+  <div class="head"><h2><i>1</i>What is in the zip</h2><button class="say">Read this</button></div>
+  <p class="lead">Cubi has two small computers (boards). Each one gets its own program. The app comes from GitHub: github.com/nasianikolova/Cubi-2, the folder <code>Code/cubi2app</code>.</p>
+  <figure data-pic="box"></figure>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Folder or file</th><th>What it is</th></tr></thead>
+    <tbody>
+      <tr><td><code>cubi2_brain</code></td><td>The main program. It keeps Cubi balanced. It goes on the main board.</td></tr>
+      <tr><td><code>cubi2_setup</code></td><td>A program you run once, before the main one. It tests the motors and the sensor.</td></tr>
+      <tr><td><code>cubi2_radio</code></td><td>The program of the Wi-Fi board.</td></tr>
+      <tr><td><code>make_update_file.py</code></td><td>Makes an update file, so you can send a new program to Cubi over Wi-Fi (the Update button in the app).</td></tr>
+    </tbody>
+  </table></div>
+  <p class="small">New in this version: the coach (<code>coach.h</code>). It learns from your real tries, checks the sensors and notices knocks and shaking.</p>
+</section>
+
+<section id="upload">
+  <div class="head"><h2><i>2</i>Put the program on Cubi</h2><button class="say">Read this</button></div>
+  <p class="lead">You send the program from your computer to the board through a USB cable.</p>
+  <figure data-pic="upload"></figure>
+  <div class="warn"><b class="ic">!</b><div><b>USB or battery. Never both at the same time.</b><br>While the cable is in, the battery stays out.</div></div>
+  <ul class="do">
+    <li>Open the folder <code>cubi2_brain</code> in the editor.</li>
+    <li>Press <b>Build</b>, then <b>Upload</b>.</li>
+  </ul>
+</section>
+
+<section id="connect">
+  <div class="head"><h2><i>3</i>Connect the app</h2><button class="say">Read this</button></div>
+  <p class="lead">Cubi makes its own Wi-Fi network. Your computer joins it, like joining a friend's hotspot.</p>
+  <figure data-pic="connect"></figure>
+  <div class="keys">
+    <div><span>Wi-Fi network</span><b>Cubi2</b></div>
+    <div><span>Password</span><b>cubi2cubi</b></div>
+    <div><span>Address</span><b>192.168.4.1</b></div>
+  </div>
+  <ul class="do">
+    <li>On your computer, join the Wi-Fi network <b>Cubi2</b> with the password <b>cubi2cubi</b>.</li>
+    <li>In a terminal, in the folder <code>cubi2app</code>, type <code>node tools/serve.mjs</code> (Node.js 18 or newer). Leave it open.</li>
+    <li>In the browser, open <b>localhost:8000/html/index.html</b>.</li>
+    <li>At the top, choose <b>Live Cubi</b>.</li>
+    <li>In the Cubi card, type <b>/cube</b> and press <b>Connect</b>. The app's server passes it on to the cube at 192.168.4.1.</li>
+  </ul>
+</section>
+
+<section id="asks">
+  <div class="head"><h2><i>4</i>The golden rule: Cubi always asks first</h2><button class="say">Read this</button></div>
+  <p class="lead">Cubi changes or saves nothing on its own. First it asks you. You answer Yes or No.</p>
+  <figure data-pic="asks"></figure>
+  <p>In the terminal, a question looks like this:</p>
+  <span class="q">? it learned a new balance point while it balanced (corner 0.25 deg) - keep it and save? (yes / no)</span>
+  <p>In the app, the same question appears in a bar over the 3D view, with <b>Yes</b> and <b>No</b> buttons. It also shows which step of "the road to 18 minutes" it belongs to.</p>
+  <p class="small">Questions come one at a time. If you start a new try, the open questions are dropped. After that try, Cubi asks again whatever still matters.</p>
+</section>
+
+<section id="after">
+  <div class="head"><h2><i>5</i>After every try</h2><button class="say">Read this</button></div>
+  <p class="lead">When a try ends (you press Stop, or Cubi falls), Cubi does three things, like a coach after a training session.</p>
+  <figure data-pic="after"></figure>
+  <ul class="do">
+    <li><b>It tells you how the try went.</b> It looks at the last 4 seconds, 250 readings every second: how much it leaned, how fast it moved, and how it shook: slowly, in the middle, or fast. (The app gets only 10 readings a second, so it cannot see a fast shake. Cubi can.)</li>
+    <li><b>It looks at its balance point.</b> If it found a better point while balancing, it asks: keep it and save? If not, it works out the point from how the wheels pushed, and asks if it should move there.</li>
+    <li><b>It suggests at most ONE change.</b> One change at a time, so you always know what helped.</li>
+  </ul>
+  <div class="tablewrap"><table>
+    <thead><tr><th>What Cubi saw</th><th>What it suggests</th></tr></thead>
+    <tbody>
+      <tr><td>A fast shake that the wheels follow</td><td>A filter that calms that shake</td></tr>
+      <tr><td>A twist on the corner's tip</td><td>Less twist</td></tr>
+      <tr><td>A wobble, a few times a second</td><td>A calmer reaction</td></tr>
+      <tr><td>A slow, big sway</td><td>A stronger reaction</td></tr>
+    </tbody>
+  </table></div>
+  <p>If you say <b>Yes</b>, Cubi uses the change, and saves nothing yet. After the next try it compares the two:</p>
+  <ul class="ok">
+    <li><b>Better, or about the same:</b> it asks "keep it and save?"</li>
+    <li><b>Worse:</b> it asks "go back?"</li>
+  </ul>
+  <p class="small">After a long, calm try (one minute or more), Cubi offers to send its settings to the app as a profile, so you can start from them next time.</p>
+</section>
+
+<section id="world">
+  <div class="head"><h2><i>6</i>Cubi notices the world around it</h2><button class="say">Read this</button></div>
+  <p class="lead">Cubi can tell what it did itself from what happened around it. It checks all the time, 250 times a second.</p>
+  <figure data-pic="world"></figure>
+  <ul class="ok">
+    <li><b>A wrong reading.</b> One reading jumps far away, and the ones before and after it agree. Nothing real moves like that in 4 thousandths of a second. Usually a loose wire on the sensor's cable.</li>
+    <li><b>A knock.</b> A jump that lasts: a hand, a bump, or the table moving.</li>
+    <li><b>Shaking.</b> A steady fast trembling: a machine nearby, footsteps, or a loose part.</li>
+  </ul>
+  <p>After a try, Cubi lists what it noticed. If something knocked it in the last 4 seconds, it learns nothing from that try and suggests no change. If it falls just after a knock, it tells you.</p>
+</section>
+
+<section id="guide">
+  <div class="head"><h2><i>7</i>The Guide in the app</h2><button class="say">Read this</button></div>
+  <p class="lead">Press <b>Guide</b> at the top of the app. It takes you through 8 short steps, with a moving picture for each one.</p>
+  <figure data-pic="guide"></figure>
+  <ul class="do">
+    <li><b>Where:</b> just the cube, or inside the ball.</li>
+    <li><b>Floor:</b> silicone mat, hard table, soft foam, or something else.</li>
+    <li><b>Balance point:</b> every Cubi is a little different (cables, lids, battery), so first find YOUR Cubi's point: hang it from corner 0 (or the ball from its 8 navels).</li>
+    <li><b>Place:</b> Cubi checks itself, and you check that the floor is flat.</li>
+    <li><b>Profile:</b> settings that already worked (how strongly it reacts, its filters). Your Cubi keeps its own balance point.</li>
+    <li><b>Choices:</b> two small questions.</li>
+    <li><b>Send:</b> the app shows what it will send. Cubi checks every number.</li>
+    <li><b>Start.</b></li>
+  </ul>
+  <p class="small">The Guide has "Bigger text" and "Read to me" buttons too.</p>
+</section>
+
+<section id="route">
+  <div class="head"><h2><i>8</i>Draw a route for the ball</h2><button class="say">Read this</button></div>
+  <p class="lead">Draw a line on the floor in the app, and the ball follows it.</p>
+  <figure data-pic="route"></figure>
+  <ul class="do">
+    <li>In the <b>Drive</b> card, press <b>Draw a route</b>.</li>
+    <li>Draw on the floor with the mouse or a finger.</li>
+    <li>Press <b>Go</b>.</li>
+  </ul>
+  <p class="small">The app cuts your line into straight pieces and sends them one after the other: turn left or right, then go forward. It works in the Simulation and with the real Cubi. The real ball still settles into the openings of its cage; rolling along the arcs is the next step.</p>
+</section>
+
+<section id="commands">
+  <div class="head"><h2><i>9</i>Commands you can type</h2><button class="say">Read this</button></div>
+  <p class="lead">Open the <b>Terminal</b> in the app and type a command. Here are the ones you will use most.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Type</th><th>What happens</th></tr></thead>
+    <tbody>
+      <tr><td><code>yes</code> / <code>no</code></td><td>Your answer to Cubi's question.</td></tr>
+      <tr><td><code>go corner</code></td><td>Cubi gets ready to balance on corner 0. Lift it slowly; it takes over.</td></tr>
+      <tr><td><code>go edge x</code> (or y, z)</td><td>Balance on an edge.</td></tr>
+      <tr><td><code>stop</code></td><td>Stop at once.</td></tr>
+      <tr><td><code>check</code></td><td>Cubi checks itself: its sensor, battery and motors. Keep it still for 2 seconds. It also does this when it starts.</td></tr>
+      <tr><td><code>zero hang</code></td><td>Cubi hangs still from corner 0, and reads its true balance point. Then it asks to save.</td></tr>
+      <tr><td><code>zero hang 3</code></td><td>The ball hangs still from navel 3 (any of 0 to 7), and reads that navel's point.</td></tr>
+      <tr><td><code>slope</code>, then <code>slope turn</code></td><td>Is the floor flat? Lay Cubi on a side and type <code>slope</code>. Turn it half a turn on the same spot and type <code>slope turn</code>.</td></tr>
+      <tr><td><code>coach on</code> / <code>coach off</code></td><td>The report and the suggestion after each try. The balance point question always comes.</td></tr>
+      <tr><td><code>profile</code></td><td>Cubi shows its settings as one line. The app keeps it.</td></tr>
+      <tr><td><code>fix</code></td><td>Move the balance point to where the wheels pushed in the last try.</td></tr>
+      <tr><td><code>save</code></td><td>Keep the settings when Cubi is switched off.</td></tr>
+      <tr><td><code>help</code></td><td>The list of all commands.</td></tr>
+    </tbody>
+  </table></div>
+  <details><summary>For the ball</summary>
+    <div class="tablewrap"><table><tbody>
+      <tr><td><code>go sphere</code></td><td>The ball holds still. Then: <code>fwd 30</code>, <code>back 30</code> (cm), <code>left 90</code>, <code>right 90</code> (degrees), <code>halt</code>.</td></tr>
+      <tr><td><code>go navel 3</code></td><td>The ball balances on navel 3.</td></tr>
+      <tr><td><code>go arc</code></td><td>The ball balances on one of its arcs. Hold it upright on the arc; it takes over.</td></tr>
+      <tr><td><code>roll 20</code></td><td>On the arc: roll 20 degrees along it, and back (1 to 30).</td></tr>
+    </tbody></table></div>
+  </details>
+</section>
+
+<section id="road">
+  <div class="head"><h2><i>10</i>The road to 18 minutes</h2><button class="say">Read this</button></div>
+  <p class="lead">In two days (22 and 23 October 2026), the first Cubi went from its first wheel turn to standing 17.9 minutes on one corner. This is how we thought. Cubi's coach thinks the same way.</p>
+  <figure data-pic="road"></figure>
+  <ul class="ok">
+    <li><b>Watch.</b> The flight recorder shows what really happened in the last 4 seconds.</li>
+    <li><b>Change one thing,</b> then try again. That way you know what helped.</li>
+    <li><b>Compare fairly:</b> the same mode, the same floor, the same start.</li>
+    <li><b>Keep what helps,</b> undo the rest, and write both down.</li>
+    <li><b>Look at the whole machine.</b> The biggest step was in the mechanics: a solid table for the sensor.</li>
+    <li><b>Safety first:</b> Stop must always work.</li>
+  </ul>
+  <p class="small">All 18 steps, with what we saw, what we changed and what came out: in the app, <b>Guide</b> → <b>The road to 18 minutes</b>.</p>
+</section>
+
+<section id="first">
+  <div class="head"><h2><i>11</i>Your first test with this program</h2><button class="say">Read this</button></div>
+  <p class="lead">Six steps. Take your time with each one.</p>
+  <figure data-pic="first"></figure>
+  <ul class="do">
+    <li>Upload the program. When Cubi starts, keep it still and read its self-check. Answer its questions.</li>
+    <li>Open the <b>Guide</b>: just the cube, your floor.</li>
+    <li>Hang it from corner 0 and press <b>Read the level</b>. Answer "keep it and save?". Put the pointed screw back into the tip.</li>
+    <li>Check the place: <b>Check</b>, then <b>Read 1</b> and <b>Read 2</b>. Then a profile, your choices, and <b>Send</b>. Answer Cubi's question.</li>
+    <li>Type <code>go corner</code> and lift it slowly. Stop after 1-2 minutes. Read the report and answer the questions.</li>
+    <li>Send the terminal lines and your answers. The coach's rules come from the tries of 22-23 October and have been tested only in the simulation so far.</li>
+  </ul>
+</section>
+
+<section id="safety">
+  <div class="head"><h2><i>12</i>Safety</h2><button class="say">Read this</button></div>
+  <p class="lead">Cubi is small, and its wheels are fast and strong.</p>
+  <figure data-pic="safety"></figure>
+  <div class="warn"><b class="ic">!</b><div><b>Fingers and hair away from the open sides.</b><br>The wheels can turn 4000 times a minute.</div></div>
+  <div class="warn"><b class="ic">!</b><div><b>The battery is 24 V.</b><br>When you upload a program: USB or battery, never both.</div></div>
+  <div class="warn"><b class="ic">!</b><div><b>Stop must always work.</b><br>If it ever does not, take the battery out and write down what happened.</div></div>
+</section>
+
+<p class="foot">Cubi 2 · SpaceInClass</p>
+</main>
+
+<script>
+// ---------- the moving pictures (plain SVG, the page's own colors) ----------
+const css = s => `<style>${s}</style>`;
+const T = (x, y, s, size, cls, anchor) => `<text x="${x}" y="${y}" class="${cls || ""}" fill="currentColor" stroke="none" font-family="inherit" font-weight="700" font-size="${size || 20}" text-anchor="${anchor || "middle"}">${s}</text>`;
+const svg = (w, h, body, style) => `<svg viewBox="0 0 ${w} ${h}" role="img" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">${css(".a{color:var(--acc)}.m{color:var(--mut)}" + (style || ""))}${body}</svg>`;
+function cube(cx, cy, s, spin) {
+  const P = d => [cx + s * Math.cos(d * Math.PI / 180), cy + s * Math.sin(d * Math.PI / 180)].map(v => +v.toFixed(1));
+  const V = [-90, -30, 30, 90, 150, 210].map(P), C = [cx, cy], pg = (a, f) => `<polygon points="${a.map(p => p.join(",")).join(" ")}" style="fill:var(${f})"/>`;
+  let g = pg([C, V[1], V[0], V[5]], "--f1") + pg([C, V[1], V[2], V[3]], "--f2") + pg([C, V[3], V[4], V[5]], "--f3");
+  [[cx, cy - s * .5, 0], [cx + s * .43, cy + s * .25, 60], [cx - s * .43, cy + s * .25, -60]].forEach(([x, y, r]) =>
+    g += `<g transform="rotate(${r} ${x} ${y})"><ellipse cx="${x}" cy="${y}" rx="${s * .3}" ry="${s * .18}" style="stroke:var(--wheel)" stroke-width="3"/>` +
+      (spin ? `<ellipse cx="${x}" cy="${y}" rx="${s * .3}" ry="${s * .18}" class="a wh" stroke-width="3" stroke-dasharray="${s * .25} ${s * .9}"/>` : "") + `</g>`);
+  return g;
+}
+const ball = (cx, cy, r) => `<circle cx="${cx}" cy="${cy}" r="${r}"/>` + [0, 60, -60].map(a => `<ellipse class="m" cx="${cx}" cy="${cy}" rx="${r}" ry="${r * .3}" transform="rotate(${a} ${cx} ${cy})" stroke-width="2.5"/>`).join("");
+const WH = ".wh{animation:wh 1s linear infinite}@keyframes wh{to{stroke-dashoffset:-60}}";
+const laptop = (x, y) => `<rect x="${x}" y="${y}" width="120" height="78" rx="8" style="fill:var(--f3)"/><path d="M${x - 14} ${y + 90}h148l-10-12H${x - 4}z" style="fill:var(--f1)"/>`;
+const board = (x, y, w, h, label) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="8" style="fill:var(--f2)"/><path class="m" d="M${x + 12} ${y + 14}h${w - 24}M${x + 12} ${y + 28}h${w - 40}" stroke-width="3"/>` + T(x + w / 2, y + h + 26, label, 18);
+const PICS = {
+  box: () => svg(520, 230, board(20, 40, 130, 90, "main board") + board(195, 50, 110, 70, "Wi-Fi board") + laptop(370, 40) + T(430, 156, "the app", 18) +
+    `<path class="a fl" d="M160 85h25M315 85h40" stroke-width="5" stroke-dasharray="6 10"/>`, ".fl{animation:fl 1.2s linear infinite}@keyframes fl{to{stroke-dashoffset:-32}}"),
+  upload: () => svg(520, 240, laptop(30, 60) + `<path d="M150 140C220 140 230 100 300 100" stroke-width="6"/>` + board(300, 60, 140, 90, "the board") +
+    `<circle class="a dot" cx="0" cy="0" r="8" style="fill:var(--acc)" stroke="none"/>` +
+    `<g transform="translate(450 150)"><rect x="0" y="0" width="54" height="30" rx="6"/><path d="M54 10h6v10h-6"/>${T(28, 56, "battery", 16)}<path class="a" d="M-8 -8L66 42" stroke-width="6"/></g>`,
+    ".dot{offset-path:path('M150 140C220 140 230 100 300 100');animation:dt 1.6s linear infinite}@keyframes dt{0%{offset-distance:0%}100%{offset-distance:100%}}"),
+  connect: () => svg(520, 220, laptop(30, 60) + [0, 1, 2].map(i => `<path class="a w${i}" d="M${190 + i * 22} ${100 - i * 14}a${22 + i * 16} ${22 + i * 16} 0 0 1 0 ${44 + i * 28}" stroke-width="6"/>`).join("") +
+    cube(370, 112, 62, false) + T(90, 192, "your computer", 18) + T(370, 210, "Cubi2", 18),
+    ".w0,.w1,.w2{opacity:.15;animation:wv 2s linear infinite}.w1{animation-delay:.3s}.w2{animation-delay:.6s}@keyframes wv{20%{opacity:1}60%{opacity:.15}}"),
+  asks: () => svg(520, 220, cube(110, 110, 70, false) +
+    `<path d="M200 40h270a16 16 0 0 1 16 16v78a16 16 0 0 1-16 16H260l-34 28v-28h-26a16 16 0 0 1-16-16V56a16 16 0 0 1 16-16z" style="fill:var(--bg)"/>` +
+    T(335, 88, "keep it and save?", 24) + `<g class="b1"><rect x="250" y="104" width="84" height="34" rx="8" style="fill:var(--ink)"/>${T(292, 128, "Yes", 18).replace('fill="currentColor"', 'style="fill:var(--card)"')}</g><rect x="346" y="104" width="84" height="34" rx="8"/>${T(388, 128, "No", 18)}`,
+    ".b1{animation:b1 2.4s ease-in-out infinite;transform-origin:292px 121px}@keyframes b1{0%,70%,100%{transform:scale(1)}80%{transform:scale(1.12)}}"),
+  after: () => svg(520, 240, `<rect x="30" y="20" width="200" height="200" rx="14" style="fill:var(--bg)"/>` +
+    [0, 1, 2].map(i => `<g class="r${i}"><circle cx="64" cy="${66 + i * 56}" r="16" style="fill:var(--ink)"/>${T(64, 72 + i * 56, i + 1, 18).replace('fill="currentColor"', 'style="fill:var(--card)"')}<path class="m" d="M94 ${66 + i * 56}h${[110, 90, 70][i]}" stroke-width="8"/></g>`).join("") +
+    `<path class="m" d="M260 60c20-26 40 26 60 0s40 26 60 0 40 26 60 0" stroke-width="3"/>` + T(380, 110, "slow, middle, fast shake", 16) +
+    `<path class="a" d="M260 170h80l-12-12M340 170l-12 12" stroke-width="5"/>` + T(420, 176, "one change", 20),
+    [0, 1, 2].map(i => `.r${i}{opacity:0;animation:rr 6s linear infinite;animation-delay:${i * .8}s}`).join("") + "@keyframes rr{0%{opacity:0}8%,85%{opacity:1}100%{opacity:0}}"),
+  world: () => svg(520, 210,
+    `<g transform="translate(20 20)"><path d="M10 120h140" class="m"/><g class="kn">${cube(80, 70, 40, false)}</g><path class="a hd" d="M150 60h-30l-10 10" stroke-width="6"/>${T(80, 170, "a knock", 18)}</g>` +
+    `<g transform="translate(190 20)"><path d="M10 120h140" class="m"/><g class="sh">${cube(80, 70, 40, false)}</g>${T(80, 170, "shaking", 18)}</g>` +
+    `<g transform="translate(360 20)"><rect x="20" y="40" width="70" height="40" rx="8"/><path d="M90 52h22M90 68h22" stroke-width="5"/><path class="a pl" d="M130 60h20" stroke-width="5"/>${T(80, 170, "a loose plug", 18)}</g>`,
+    ".kn{animation:kn 2.5s ease-out infinite;transform-origin:80px 120px}@keyframes kn{0%,60%{transform:rotate(0)}64%{transform:rotate(-7deg)}75%,100%{transform:rotate(0)}}" +
+    ".hd{animation:hd 2.5s ease-in infinite}@keyframes hd{0%,40%{transform:translateX(30px);opacity:0}60%{transform:translateX(0);opacity:1}75%,100%{transform:translateX(20px);opacity:0}}" +
+    ".sh{animation:sh .09s linear infinite}@keyframes sh{0%,100%{transform:translateX(-1.8px)}50%{transform:translateX(1.8px)}}" +
+    ".pl{animation:pl 1.2s steps(2) infinite}@keyframes pl{0%{opacity:1}100%{opacity:0}}"),
+  guide: () => svg(520, 200, `<rect x="20" y="20" width="480" height="160" rx="16" style="fill:var(--bg)"/>` +
+    Array.from({ length: 8 }, (_, i) => `<g class="g${i}"><circle cx="${60 + i * 57}" cy="60" r="18"/>${T(60 + i * 57, 67, i + 1, 18)}</g>`).join("") +
+    `<path class="m" d="M60 110h400M60 140h300" stroke-width="6"/>`,
+    Array.from({ length: 8 }, (_, i) => `.g${i}{animation:gg 8s linear infinite;animation-delay:${i}s}`).join("") + "@keyframes gg{0%,12%{color:var(--acc)}13%,100%{color:var(--ink)}}"),
+  route: () => svg(520, 220, `<path class="a" d="M40 180C140 180 160 80 260 80S400 40 480 40" stroke-width="5" stroke-dasharray="12 12"/><g class="go">${ball(0, 0, 34)}${cube(0, 0, 17, false)}</g>`,
+    ".go{offset-path:path('M40 180C140 180 160 80 260 80S400 40 480 40');offset-rotate:0deg;animation:go 6s ease-in-out infinite}@keyframes go{0%{offset-distance:0%}80%,100%{offset-distance:100%}}"),
+  road: () => { const R = [8.7, 25.5, 33, 53, 130, 438, 1073], X = i => 70 + i * 62, Y = v => 200 - (Math.log10(v) - .8) / 2.4 * 160;
+    return svg(520, 240, `<path class="m" d="M50 30V200H490"/>` + `<polyline class="a ln" points="${R.map((v, i) => X(i) + "," + Y(v).toFixed(1)).join(" ")}" stroke-width="6" stroke-dasharray="700" stroke-dashoffset="700"/>` +
+      R.map((v, i) => `<circle cx="${X(i)}" cy="${Y(v).toFixed(1)}" r="6" style="fill:var(--ink)" stroke="none"/>`).join("") + T(440, 28, "17.9 min", 24, "a") + T(70, 230, "9 s", 18),
+      ".ln{animation:ln 5s ease-out infinite}@keyframes ln{0%{stroke-dashoffset:700}60%,100%{stroke-dashoffset:0}}"); },
+  first: () => svg(520, 200, `<path class="m" d="M60 160h400"/>` + `<g class="up">${cube(260, 100, 60, true)}</g>`,
+    WH + ".up{transform-origin:260px 160px;animation:up 6s ease-in-out infinite}@keyframes up{0%,8%{transform:rotate(-24deg)}45%{transform:rotate(0)}60%{transform:rotate(1.5deg)}75%{transform:rotate(-1deg)}90%,100%{transform:rotate(0)}}"),
+  safety: () => svg(520, 200, cube(130, 100, 66, true) + `<circle cx="330" cy="100" r="60" class="a" stroke-width="6"/><path class="a" d="M288 58l84 84" stroke-width="6"/>` +
+    `<path d="M310 70c0-10 16-10 16 0v30m0-24c0-10 16-10 16 0v30m-32-36c0-10-16-10-16 0v44c0 20 14 32 32 32s28-12 28-30v-22c0-10-12-10-12 0"/>`, WH)
+};
+document.querySelectorAll("figure[data-pic]").forEach(f => { f.innerHTML = PICS[f.dataset.pic](); f.setAttribute("aria-hidden", "true"); });
+
+// ---------- bigger text, dark, read this ----------
+const root = document.documentElement, big = document.getElementById("t-big"), dark = document.getElementById("t-dark");
+function setBig(on) { document.body.classList.toggle("big", on); big.setAttribute("aria-pressed", String(on)); try { localStorage.setItem("cubi2.instr.big", on ? "1" : "0"); } catch (e) {} }
+function setDark(on) { root.classList.toggle("dark", on); dark.setAttribute("aria-pressed", String(on)); try { localStorage.setItem("cubi2.instr.dark", on ? "1" : "0"); } catch (e) {} }
+try { setBig(localStorage.getItem("cubi2.instr.big") === "1"); setDark(localStorage.getItem("cubi2.instr.dark") === "1"); } catch (e) {}
+big.onclick = () => setBig(!document.body.classList.contains("big"));
+dark.onclick = () => setDark(!root.classList.contains("dark"));
+let speakingBtn = null;
+document.querySelectorAll("button.say").forEach(b => {
+  if (!("speechSynthesis" in window)) { b.hidden = true; return; }
+  b.onclick = () => {
+    const was = speakingBtn === b; speechSynthesis.cancel(); if (speakingBtn) { speakingBtn.textContent = "Read this"; speakingBtn.setAttribute("aria-pressed", "false"); } speakingBtn = null;
+    if (was) return;
+    const sec = b.closest("section"), parts = [...sec.querySelectorAll("h2, p, li, .warn div, tr")].map(e => e.textContent.replace(/\s+/g, " ").trim()).filter(Boolean);
+    const u = new SpeechSynthesisUtterance(parts.join(". ").replace(/\.\s*\./g, ".")); u.lang = "en-GB"; u.rate = 0.95;
+    u.onend = () => { if (speakingBtn === b) { b.textContent = "Read this"; b.setAttribute("aria-pressed", "false"); speakingBtn = null; } };
+    speakingBtn = b; b.textContent = "Stop reading"; b.setAttribute("aria-pressed", "true"); speechSynthesis.speak(u);
+  };
+});
+</script>
+</body>
+</html>
