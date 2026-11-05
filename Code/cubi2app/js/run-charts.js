@@ -15,6 +15,7 @@ const letterWidth = 7         // about, for the notes
 
 // 1.4 s, 17.9 min, 1.2 h
 const durationText = seconds => {
+  if (!Number.isFinite(seconds)) return '?'   // a time mistyped by hand in runs.json
   if (seconds < 60) return seconds.toFixed(1) + ' s'
   if (seconds < 3600) return (seconds / 60).toFixed(1) + ' min'
   return (seconds / 3600).toFixed(1) + ' h'
@@ -28,7 +29,7 @@ const startDrawing = svg => {
   if (!width || !height) return null
 
   svg.setAttribute('viewBox', `0 0 ${width} ${height}`)
-  // appendChild gives back what it added, so a dot can get its own little title afterwards
+  // appendChild gives back what it added, so a dot can get its own little title afterward
   const add = (tag, attributes, text) => svg.appendChild(makeSvg(tag, attributes, text))
   return { width, height, add }
 }
@@ -106,7 +107,8 @@ const drawAllRuns = (svg, runs) => {
   }
 
   // the scale of tens: 1 s to 10 s is as tall as 10 s to 100 s
-  const atLeast = seconds => Math.max(seconds, 0.01)    // a run of 0 s would fall off the bottom
+  // a run of 0 s would fall off the bottom; a time mistyped by hand in runs.json sits at the bottom too
+  const atLeast = seconds => (Number.isFinite(seconds) ? Math.max(seconds, 0.01) : 0.01)
   const allSeconds = runs.map(run => atLeast(run.seconds))
   const low = Math.log10(Math.min(0.8, Math.min(...allSeconds) * 0.8))
   const high = Math.log10(Math.max(3000, Math.max(...allSeconds) * 3))

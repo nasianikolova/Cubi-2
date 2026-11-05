@@ -138,6 +138,16 @@ const settings = {
     lookAtCube: 110
   },
 
+  // ----- Update: new programs for the cube over the Wi-Fi ------------------------------------------
+  update: {
+    linesAtOnce: 64,           // FIRMWARE - the Teensy keeps 64 lines of its new program at a time
+    triesForAPart: 5,          // a part that arrived damaged is sent again, at most this many times
+    triesToReach: 3,           // the Wi-Fi board did not answer: ask it again, at most this many times
+    pauseBetweenTries: 800,    // ms
+    waitForRestart: 3000,      // ms - after the Teensy's new program, before the Wi-Fi board's
+    waitAtMost: 120000         // ms - clearing the flash or a big program takes long; longer is a break
+  },
+
   // ----- keeping the runs of the real cube ----------------------------------------------------------
   runs: {
     keepAt: '/runs/add',          // where tools/serve.mjs takes a run and writes it into data/runs.json

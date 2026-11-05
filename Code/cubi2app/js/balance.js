@@ -83,7 +83,7 @@ class Balance {
   }
 
   // While it stands quietly, wheels that keep speeding up one way mean the balance point is a
-  // little off. It is moved towards where the wheels say it should be - this is 'learn'.
+  // little off. It is moved toward where the wheels say it should be - this is 'learn'.
   #moveTheBalancePoint = (spinning, dt) => {
     const { balancePoint } = this
     if (this.learnRate <= 0 || this.tiltDegrees >= how.learnBelowDegrees) return

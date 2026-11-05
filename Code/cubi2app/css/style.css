@@ -5,7 +5,7 @@
   --bg: #04070d;          /* night */
   --panel: #0a1019;
   --ink: #eaf6fc;         /* ice white */
-  --blue: #2456b8;        /* the opposite colour: text on ice */
+  --blue: #2456b8;        /* the opposite color: text on ice */
   --muted: #8ea6b8;       /* frosted */
   --rule: #23323f;
   --edge: #5d7486;        /* control outlines */
@@ -280,38 +280,38 @@ body { margin: 0 } [hidden] { display: none !important }
 .runsw .tabs button { border: 0; border-radius: 0; padding: 7px 14px; min-height: 36px; font-size: 14px }
 .runsw .tabs button[aria-pressed="true"] { background: var(--ink); color: var(--blue) }
 .runsw .x { margin-left: auto }
-.runs-title { display: flex; align-items: center; gap: 12px; padding: 14px 4px 6px }
-.runs-title h2 { font: 700 20px var(--f-body); margin: 0; color: var(--ink); white-space: pre }
-.runs-pill { margin-left: auto; font: 500 14px var(--f-mono); padding: 7px 12px; border-radius: 4px; color: var(--ink); white-space: pre }
-.runs-pill.count { background: var(--blue) }
-.runs-pill.stopped { background: #8a2f2b }   /* Cubi stopped itself */
-.runs-pill.hand { background: #2a8080 }      /* stopped on purpose */
-.runs-body { flex: 1; min-height: 0; display: flex }
-.runs-pane { flex: 1; min-width: 0; display: flex; gap: 22px }
-.runs-charts { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px }
-.runs-chart { display: block; flex: 1; min-height: 0; width: 100% }
+.runsw .runs-title { display: flex; align-items: center; gap: 12px; padding: 14px 4px 6px }
+.runsw .runs-title h2 { font: 700 20px var(--f-body); margin: 0; color: var(--ink); white-space: pre }
+.runsw .runs-pill { margin-left: auto; font: 500 14px var(--f-mono); padding: 7px 12px; border-radius: 4px; color: var(--ink); white-space: pre }
+.runsw .runs-pill.count { background: var(--blue) }
+.runsw .runs-pill.stopped { background: #8a2f2b }   /* Cubi stopped itself */
+.runsw .runs-pill.hand { background: #2a8080 }      /* stopped on purpose */
+.runsw .runs-body { flex: 1; min-height: 0; display: flex }
+.runsw .runs-pane { flex: 1; min-width: 0; display: flex; gap: 22px }
+.runsw .runs-charts { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 6px }
+.runsw .runs-chart { display: block; flex: 1; min-height: 0; width: 100% }
 .runsw .readouts { flex: none; width: 210px; display: flex; flex-direction: column; justify-content: space-around; padding: 10px 0 }
 .runsw .readouts div { color: var(--muted); font-size: 13px }
 .runsw .readouts strong { display: block; font: 600 34px/1.15 var(--f-mono); color: var(--ink); margin: 4px 0 }
 /* the drawings: only the places are in run-charts.js, the look is here */
-.runs-chart .frame { fill: var(--panel); stroke: var(--rule) }
-.runs-chart .grid { stroke: var(--rule) }
-.runs-chart .chart-label { fill: var(--muted); font: 700 13px var(--f-body) }
-.runs-chart .tick { fill: var(--muted); font: 12px var(--f-mono); text-anchor: middle }
-.runs-chart .tick.to-left { text-anchor: end }
-.runs-chart .axis-name { fill: var(--muted); font: 13px var(--f-body); text-anchor: middle }
-.runs-chart .empty { fill: var(--muted); font: 14px var(--f-body); text-anchor: middle }
-.runs-chart .day { fill: var(--ink); font: 700 16px var(--f-body); text-anchor: middle }
-.runs-chart .day-line { stroke: var(--muted); stroke-dasharray: 4 4 }
-.runs-chart .run-line { fill: none; stroke: var(--ink); stroke-width: 2.2 }
-.runs-chart .dot { stroke: var(--ink); stroke-width: 2.2 }
-.runs-chart .dot.hand { fill: var(--ink) }     /* still standing: stopped by hand */
-.runs-chart .dot.cubi { fill: var(--panel) }   /* Cubi stopped itself */
-.runs-chart .key { fill: var(--ink); font: 13.5px var(--f-body) }
-.runs-chart .key.mono { font: 13px var(--f-mono) }
-.runs-chart .note { fill: var(--ink); font: 13px var(--f-body); text-anchor: middle; paint-order: stroke; stroke: var(--panel); stroke-width: 5px; stroke-linejoin: round }
-.runs-chart .note-line { stroke: var(--muted) }
-.runs-chart .reading { fill: none; stroke: var(--ink); stroke-width: 1.8 }
-.runs-chart .key-line { stroke: var(--ink); stroke-width: 2 }
-.runs-chart .axis-y { stroke-dasharray: 6 4 }    /* X solid, Y dashed, Z dotted - as on the wheels card */
-.runs-chart .axis-z { stroke-dasharray: 1.5 3 }
+.runsw .runs-chart .frame { fill: var(--panel); stroke: var(--rule) }
+.runsw .runs-chart .grid { stroke: var(--rule) }
+.runsw .runs-chart .chart-label { fill: var(--muted); font: 700 13px var(--f-body) }
+.runsw .runs-chart .tick { fill: var(--muted); font: 12px var(--f-mono); text-anchor: middle }
+.runsw .runs-chart .tick.to-left { text-anchor: end }
+.runsw .runs-chart .axis-name { fill: var(--muted); font: 13px var(--f-body); text-anchor: middle }
+.runsw .runs-chart .empty { fill: var(--muted); font: 14px var(--f-body); text-anchor: middle }
+.runsw .runs-chart .day { fill: var(--ink); font: 700 16px var(--f-body); text-anchor: middle }
+.runsw .runs-chart .day-line { stroke: var(--muted); stroke-dasharray: 4 4 }
+.runsw .runs-chart .run-line { fill: none; stroke: var(--ink); stroke-width: 2.2 }
+.runsw .runs-chart .dot { stroke: var(--ink); stroke-width: 2.2 }
+.runsw .runs-chart .dot.hand { fill: var(--ink) }     /* still standing: stopped by hand */
+.runsw .runs-chart .dot.cubi { fill: var(--panel) }   /* Cubi stopped itself */
+.runsw .runs-chart .key { fill: var(--ink); font: 13.5px var(--f-body) }
+.runsw .runs-chart .key.mono { font: 13px var(--f-mono) }
+.runsw .runs-chart .note { fill: var(--ink); font: 13px var(--f-body); text-anchor: middle; paint-order: stroke; stroke: var(--panel); stroke-width: 5px; stroke-linejoin: round }
+.runsw .runs-chart .note-line { stroke: var(--muted) }
+.runsw .runs-chart .reading { fill: none; stroke: var(--ink); stroke-width: 1.8 }
+.runsw .runs-chart .key-line { stroke: var(--ink); stroke-width: 2 }
+.runsw .runs-chart .axis-y { stroke-dasharray: 6 4 }    /* X solid, Y dashed, Z dotted - as on the wheels card */
+.runsw .runs-chart .axis-z { stroke-dasharray: 1.5 3 }

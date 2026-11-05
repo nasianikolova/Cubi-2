@@ -29,7 +29,7 @@ const showLive = () => {
   else showLiveCubeReadings(reading)
 
   byId(names.volts).textContent = reading.v ? reading.v.toFixed(1) : nothing
-  byId(names.charge).textContent = reading.bp != null ? reading.bp.toFixed(0) : nothing
+  byId(names.charge).textContent = Number.isFinite(reading.bp) ? reading.bp.toFixed(0) : nothing
   byId(names.cubeState).textContent = reading.st ? reading.st.toLowerCase() : nothing
   wheelsCard.draw(reading.w ?? [0, 0, 0])
 
@@ -49,7 +49,7 @@ const showLiveSphereReadings = (reading, onTheSphere) => {
 }
 
 const showLiveCubeReadings = reading => {
-  showReading(0, 'tilt', reading.tilt != null ? reading.tilt.toFixed(2) : nothing, 'deg')
+  showReading(0, 'tilt', Number.isFinite(reading.tilt) ? reading.tilt.toFixed(2) : nothing, 'deg')
   showReading(1, 'mode', reading.m || nothing, '')
   showReading(2, 'gains', reading.k ? reading.k[0].toFixed(2) : nothing, 'angle')
 }
@@ -130,8 +130,8 @@ const sphereWords = () => {
 // ----- all of it ------------------------------------------------------------------------------
 
 const showPanel = () => {
-  showStartStop('sphere-go', sphereRunning(), 'go sphere')
-  showStartStop('cube-go', cubeRunning(), 'go corner')
+  showStartStop(names.sphereGo, sphereRunning(), 'go sphere')
+  showStartStop(names.cubeGo, cubeRunning(), 'go corner')
 
   if (state.liveOn) return showLive()
   if (state.kind === 'cube') return showCube()

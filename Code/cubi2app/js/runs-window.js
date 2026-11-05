@@ -124,9 +124,9 @@ class RunsWindow {
     const { lastRun } = runRecord
     if (!lastRun) return
 
-    // ...run - everything else that is in lastRun: what a run in runs.json holds
-    const { readings, timeOnTheCorner, largestTilt, fastestWheel, ...run } = lastRun
-    this.runs.push({ ...run, note: '' })
+    // the same things a run in runs.json holds
+    const { date, day, mode, seconds, stoppedBy, why, readings } = lastRun
+    this.runs.push({ date, day, mode, seconds, stoppedBy, why, note: '' })
     if (readings?.length) this.lastRun = lastRun
     this.draw()
   }
@@ -167,8 +167,10 @@ class RunsWindow {
     }
 
     const { date, day, mode, seconds, stoppedBy, why, readings, largestTilt, fastestWheel } = lastRun
-    const runOfTheDay = this.runs.filter(run => run.date === date).length
-    const ofTheDay = runOfTheDay ? `, run ${runOfTheDay}` : ''
+    // which run of its day it was: the run itself is found in the list, and the runs before it counted
+    const sameDay = this.runs.filter(run => run.date === date)
+    const itself = sameDay.findLastIndex(run => run.seconds === seconds && run.mode === mode && run.stoppedBy === stoppedBy)
+    const ofTheDay = itself >= 0 ? `, run ${itself + 1}` : ''
     const year = date.slice(0, 4)
 
     if (stoppedBy === 'cubi') this.#head(`THE LAST RUN  ·  ${mode}  ·  ${day} ${year}${ofTheDay}`, why || 'Cubi stopped itself', 'stopped')

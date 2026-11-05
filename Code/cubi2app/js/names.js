@@ -14,6 +14,7 @@ const names = {
   cubeButton: 'button-cube',
   simulationButton: 'button-simulation',
   liveButton: 'button-live',
+  updateButton: 'button-update',
   runsButton: 'button-runs',
   settingsButton: 'button-settings',
   terminalButton: 'button-terminal',
@@ -31,6 +32,7 @@ const names = {
   terminal: 'terminal',
   settings: 'settings',
   runs: 'runs',
+  update: 'update',
   log: 'log',
   commandInput: 'input-command',
 

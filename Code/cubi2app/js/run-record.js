@@ -20,11 +20,11 @@ const dateOf = when => [
 class RunRecord {
   constructor() {
     this.running = null        // the run going on now: when it started, and on what
-    this.waitingForDump = null // the run that has ended, while its recording comes in
-    this.dumpLines = null      // the lines of the recording, once it has started coming
-    this.why = ''              // the last 'STOPPED: ...' line the cube wrote
+    this.waiting = []          // runs that have ended, oldest first, each waiting for its recording
+    this.dumpLines = null      // the lines of a recording, while one is coming in
+    this.lateUntil = 0         // a recording given up on may still come until then - it stays out of the Terminal
+    this.why = ''              // the last 'STOPPED: ...' line the cube wrote during the run
     this.lastRun = null
-    this.giveUp = null
 
     // the Runs window puts its own redraw here, so it is told when a new run has been kept
     this.whenKept = null
@@ -42,28 +42,29 @@ class RunRecord {
   }
 
   // ----- every line the cube writes comes here first ---------------------------------------
-  // It answers true when the line belonged to a recording, so the Terminal leaves it out.
+  // It answers true when the line belongs to a recording we asked for, so the Terminal leaves it out.
 
   takeLine = line => {
-    if (this.running && line.startsWith('STOPPED')) this.why = line.trim()
-    if (!this.waitingForDump) return false
+    const text = line.trim()
+    if (text.startsWith('STOPPED')) this.#reason(text)
 
-    if (line.trim() === '> dump') return true
+    // a recording is coming in: every line of it is ours, up to its end
+    if (this.dumpLines) {
+      if (isDumpEnd(text)) this.#dumpFinished()
+      else this.dumpLines.push(line)
+      return true
+    }
 
-    if (isDumpStart(line)) {
+    // no recording of ours is expected: a 'dump' typed in the Terminal is shown as always
+    const expected = this.waiting.length > 0 || Date.now() < this.lateUntil
+    if (!expected) return false
+
+    if (text === '> dump') return true
+    if (isDumpStart(text)) {
       this.dumpLines = []
       return true
     }
-
-    if (!this.dumpLines) return false
-
-    if (isDumpEnd(line)) {
-      this.#dumpFinished()
-      return true
-    }
-
-    this.dumpLines.push(line)
-    return true
+    return false
   }
 
   // ----- the steps of a run ------------------------------------------------------------------
@@ -73,42 +74,64 @@ class RunRecord {
     this.why = ''
   }
 
-  #ended = reading => {
-    const run = this.running
-    this.running = null
+  // The cube's reason - it can come a moment after the reading that already said STOPPED
+  #reason = text => {
+    if (this.running) {
+      this.why = text
+      return
+    }
+    const last = this.waiting.at(-1)
+    if (last?.stoppedBy === 'cubi' && !last.why) last.why = text
+  }
 
-    this.waitingForDump = {
-      ...run,
+  #ended = reading => {
+    const run = {
+      ...this.running,
       // STOPPED means the cube gave up by itself; anything else is a hand that stopped it standing
       stoppedBy: reading.st === 'STOPPED' ? 'cubi' : 'hand',
       why: this.why,
       // in case the recording never comes, the app's own clock is all there is
-      clockSeconds: (Date.now() - run.from.getTime()) / 1000
+      clockSeconds: (Date.now() - this.running.from.getTime()) / 1000,
+      giveUp: null
     }
-    this.dumpLines = null
+    this.running = null
 
-    sendCommand(state.liveAddress, 'dump').catch(() => {})
-    clearTimeout(this.giveUp)
-    this.giveUp = setTimeout(this.#noDumpCame, settings.runs.dumpWaitAtMost)
+    run.giveUp = setTimeout(() => this.#noDumpCame(run), settings.runs.dumpWaitAtMost)
+    this.waiting.push(run)
+    sendCommand(state.liveAddress, 'dump').catch(() => {})   // if it never arrives, the timer keeps the run
   }
+
+  // Does this recording belong to this run? The cube's time and the app's clock must agree.
+  // The cube's time may be much longer - when the app was opened while the cube already stood -
+  // but never much shorter.
+  #agrees = (run, summed) => summed.timeOnTheCorner >= run.clockSeconds - Math.max(2, run.clockSeconds * 0.1)
 
   #dumpFinished = () => {
-    clearTimeout(this.giveUp)
     const readings = readDump(this.dumpLines)
-    this.#keep(readings)
-  }
-
-  #noDumpCame = () => {
-    if (!this.waitingForDump) return
-    this.#keep([])
-  }
-
-  #keep = readings => {
-    const run = this.waitingForDump
     const summed = sumUp(readings)
-
-    this.waitingForDump = null
     this.dumpLines = null
+
+    if (!summed) return   // an empty recording: the run is kept by its timer, with the app's clock
+
+    // of the runs still waiting, the one whose time is closest to the recording's own;
+    // none agrees - the recording is nobody's, and it is left out
+    const distance = run => Math.abs(run.clockSeconds - summed.timeOnTheCorner)
+    const run = this.waiting
+      .filter(one => this.#agrees(one, summed))
+      .sort((a, b) => distance(a) - distance(b))[0]
+    if (run) this.#keep(run, readings)
+  }
+
+  #noDumpCame = run => {
+    if (!this.waiting.includes(run)) return
+    this.lateUntil = Date.now() + settings.runs.dumpWaitAtMost
+    this.#keep(run, [])
+  }
+
+  #keep = (run, readings) => {
+    clearTimeout(run.giveUp)
+    this.waiting = this.waiting.filter(one => one !== run)
+    const summed = sumUp(readings)
 
     // the cube's own time is exact; the app's clock is only used when there is no recording
     const seconds = Math.round((summed?.timeOnTheCorner ?? run.clockSeconds) * 100) / 100
@@ -132,24 +155,28 @@ class RunRecord {
 
   // the run goes to whoever serves the app, which writes it into data/
   #send = async (where, what) => {
+    let answer
     try {
-      const answer = await fetch(where, {
+      answer = await fetch(where, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(what)
       })
-      if (!answer.ok) throw new Error(String(answer.status))
     } catch {
       say('the run could not be written - open the app with tools/serve.mjs to keep the runs')
+      return
     }
+    // the server says why it did not write it
+    if (!answer.ok) say('the run could not be written - ' + await answer.text())
   }
 
-  // the table is cleared: nothing is left waiting
+  // the table is cleared: nothing is left waiting, no timer is left running
   clear = () => {
-    clearTimeout(this.giveUp)
+    this.waiting.forEach(run => clearTimeout(run.giveUp))
     this.running = null
-    this.waitingForDump = null
+    this.waiting = []
     this.dumpLines = null
+    this.lateUntil = 0
   }
 }
 

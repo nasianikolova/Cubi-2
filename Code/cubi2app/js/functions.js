@@ -76,4 +76,9 @@ const showSettings = on => showWindow(names.settings, names.settingsButton, on)
 // the Runs window draws itself the moment it opens - see runs-window.js
 const showRuns = on => showWindow(names.runs, names.runsButton, on)
 
-export { byId, byIdIfThere, keyButton, makeCard, sliderRow, valueOf, say, centimeters, showWindow, showTerminal, showSettings, showRuns }
+const showUpdate = on => showWindow(names.update, names.updateButton, on)
+
+export {
+  byId, byIdIfThere, keyButton, makeCard, sliderRow, valueOf, say, centimeters,
+  showWindow, showTerminal, showSettings, showRuns, showUpdate
+}

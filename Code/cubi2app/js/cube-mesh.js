@@ -41,8 +41,8 @@ const darkInside = shape => {
   for (let k = 0; k < corners.length; k += 3) {
     const far = Math.hypot(corners[k], corners[k + 1], corners[k + 2]) || 1
     // how much this corner looks toward the middle of the cube: -1 straight in, +1 straight out
-    const inwards = (corners[k] * normals[k] + corners[k + 1] * normals[k + 1] + corners[k + 2] * normals[k + 2]) / far
-    const light = inwards < -0.25 ? 0.13 : 1
+    const inward = (corners[k] * normals[k] + corners[k + 1] * normals[k + 1] + corners[k + 2] * normals[k + 2]) / far
+    const light = inward < -0.25 ? 0.13 : 1
 
     paint[k] = light
     paint[k + 1] = light

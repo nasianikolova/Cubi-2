@@ -97,6 +97,7 @@ const setMode = live => {
   view.trail.length = 0
   wheelsCard.clear()
   byId(names.log).textContent = ''
+  runRecord.clear()   // a run that was going on is not measured across the time away from Live
 
   if (live) return goLive()
   goSimulation()
@@ -142,6 +143,7 @@ const connect = address => {
     state.liveAddress = clean
     state.liveSequence = 0
     byId(names.log).textContent = ''
+    runRecord.clear()   // another cube: nothing of the old one's runs is waiting any more
   }
 
   showLink('connecting to ' + state.liveAddress + ' ...')

@@ -102,9 +102,9 @@ class GravityMeasure {
 
     this.count++
     this.sumTime += time
-    this.sumTimeTime += time * time
+    this.sumTimeSquared += time * time
     this.sumWheels = add(this.sumWheels, wheels)
-    this.sumTimeWheels = add(this.sumTimeWheels, scale(wheels, time))
+    this.sumTimeTimesWheels = add(this.sumTimeTimesWheels, scale(wheels, time))
     this.upSum = add(this.upSum, vector(sphere.orientation[6], sphere.orientation[7], sphere.orientation[8]))
 
     const longEnough = time >= measureFor || fastestWheel > wheelsTooFast
@@ -142,10 +142,10 @@ class GravityMeasure {
 
   // the straight line through the wheel speeds: its slope is how fast they are speeding up
   #wheelSlope = () => {
-    const { count, sumTime, sumTimeTime, sumWheels, sumTimeWheels } = this
-    const spread = count * sumTimeTime - sumTime * sumTime
+    const { count, sumTime, sumTimeSquared, sumWheels, sumTimeTimesWheels } = this
+    const spread = count * sumTimeSquared - sumTime * sumTime
 
-    return scale(subtract(scale(sumTimeWheels, count), scale(sumWheels, sumTime)), 1 / spread)
+    return scale(subtract(scale(sumTimeTimesWheels, count), scale(sumWheels, sumTime)), 1 / spread)
   }
 
   // This navel's share of the answer is added in. rows is what turning the offset by gravity does.
@@ -173,9 +173,9 @@ class GravityMeasure {
   #forgetThisNavel = () => {
     this.count = 0
     this.sumTime = 0
-    this.sumTimeTime = 0
+    this.sumTimeSquared = 0
     this.sumWheels = vector(0, 0, 0)
-    this.sumTimeWheels = vector(0, 0, 0)
+    this.sumTimeTimesWheels = vector(0, 0, 0)
     this.upSum = vector(0, 0, 0)
   }
 

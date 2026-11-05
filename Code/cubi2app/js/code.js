@@ -1,6 +1,6 @@
 import Keys from '../tools/keys.js'
 import { make } from '../tools/make.js'
-import { byId, showTerminal, showSettings, showRuns } from './functions.js'
+import { byId, showTerminal, showSettings, showRuns, showUpdate } from './functions.js'
 import names from './names.js'
 import state from './state.js'
 import { view } from './view3d.js'
@@ -22,6 +22,7 @@ import TelemetryCard from './telemetry-card.js'
 import TerminalWindow from './terminal-window.js'
 import SettingsWindow from './settings-window.js'
 import RunsWindow from './runs-window.js'
+import UpdateWindow from './update-window.js'
 import { wheelsCard } from './wheels-card.js'
 
 const topBar = new TopBar()
@@ -37,16 +38,20 @@ const linkCard = new LinkCard()
 const sphereHint = new HintCard('sphere')
 const cubeHint = new HintCard('cube')
 
+// the right column: everything that tells you what is happening
 const telemetryCard = new TelemetryCard()
 
+// the windows, over the page
 const terminalWindow = new TerminalWindow()
 const settingsWindow = new SettingsWindow()
 const runsWindow = new RunsWindow()
+const updateWindow = new UpdateWindow()
 
 const leftColumn = [driveCard, navelsCard, sphereSettingsCard, balanceCard, cubeSimCard, linkCard, sphereHint, cubeHint]
 const rightColumn = [telemetryCard, wheelsCard]
-const everyPart = [topBar, stage, ...leftColumn, ...rightColumn, terminalWindow, settingsWindow, runsWindow]
+const everyPart = [topBar, stage, ...leftColumn, ...rightColumn, terminalWindow, settingsWindow, runsWindow, updateWindow]
 
+// each part builds itself first, and only then is the page put together out of them
 everyPart.forEach(part => part._render())
 
 const buildThePage = () => {
@@ -64,10 +69,13 @@ const buildThePage = () => {
   document.body.appendChild(topBar.element)
   document.body.appendChild(app)
   document.body.appendChild(runsWindow.element)
+  document.body.appendChild(updateWindow.element)
   document.body.appendChild(settingsWindow.element)
   document.body.appendChild(terminalWindow.element)
 }
 
+// Escape closes a window. The arrows and the space bar press the Drive buttons, so a key and a
+// button always do exactly the same thing - there is one place where each move is written.
 const wireTheKeys = () => {
   const press = id => () => byId(id).click()
 
@@ -76,7 +84,8 @@ const wireTheKeys = () => {
       if (!terminalWindow.element.hidden) return showTerminal(false)
       if (!settingsWindow.element.hidden) return showSettings(false)
       if (!runsWindow.element.hidden) return showRuns(false)
-      return false   
+      if (!updateWindow.element.hidden) return showUpdate(false)
+      return false   // nothing was open, so the key was not ours
     })
     .on('ArrowUp', whenDrivingTheSphere(press(names.sphereForward)))
     .on('ArrowDown', whenDrivingTheSphere(press(names.sphereBack)))

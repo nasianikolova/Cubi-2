@@ -175,7 +175,7 @@ class CubeSim {
   setGravityOffset = mm => {
     this.gravityOffset = scale(unit(vector(1, -1, 0)), mm / 1000)
     this.#say('center of gravity ' + (+mm).toFixed(1) +
-      ' mm off the center, across the corner diagonal (towards +x -y)')
+      ' mm off the center, across the corner diagonal (toward +x -y)')
 
     this.#useGeometry(this.physicsMode || this.mode)
     if (this.state !== 'on') this.held()
@@ -329,7 +329,7 @@ class CubeSim {
 
   // ----- the things that can happen while it stands -------------------------------------------
 
-  // The controller's balance point walks from the corner's towards the edge's, slowly.
+  // The controller's balance point walks from the corner's toward the edge's, slowly.
   #walkTheLowering = dt => {
     const lowering = this.lowering
     if (!lowering) return
@@ -348,7 +348,7 @@ class CubeSim {
     const away = angleDegrees(up, wanted)
     const rate = away > 0.2 ? Math.min(20, Math.max(1, 3 * away)) / degreesPerRadian : 0
 
-    // the way to turn that brings 'up' towards where we want it
+    // the way to turn that brings 'up' toward where we want it
     this.bodyRate = scale(unit(cross(wanted, up)), rate)
     this.hand.time += dt
   }

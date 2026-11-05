@@ -193,7 +193,7 @@
       "date": "2026-10-26",
       "day": "26 Oct",
       "mode": "corner",
-      "seconds": 5.0,
+      "seconds": 5,
       "stoppedBy": "cubi",
       "why": "",
       "note": ""
@@ -229,7 +229,7 @@
       "date": "2026-10-26",
       "day": "26 Oct",
       "mode": "corner",
-      "seconds": 97.0,
+      "seconds": 97,
       "stoppedBy": "hand",
       "why": "",
       "note": ""
@@ -247,7 +247,7 @@
       "date": "2026-10-26",
       "day": "26 Oct",
       "mode": "corner",
-      "seconds": 2.0,
+      "seconds": 2,
       "stoppedBy": "cubi",
       "why": "",
       "note": "new corner standoff"
@@ -256,7 +256,16 @@
       "date": "2026-10-26",
       "day": "26 Oct",
       "mode": "corner",
-      "seconds": 150.0,
+      "seconds": 150,
+      "stoppedBy": "hand",
+      "why": "",
+      "note": ""
+    },
+    {
+      "date": "2026-11-05",
+      "day": "5 Nov",
+      "mode": "corner",
+      "seconds": 58.76,
       "stoppedBy": "hand",
       "why": "",
       "note": ""

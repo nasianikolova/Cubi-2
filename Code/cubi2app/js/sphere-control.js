@@ -1,4 +1,4 @@
-import { vector, add, subtract, scale, dot, cross, length, unit, noTurn, rotate, rotateBack, rotateInBody, rotateInWorld } from './math.js'
+import { vector, subtract, scale, cross, length, unit, noTurn, rotate, rotateBack, rotateInBody, rotateInWorld } from './math.js'
 import settings from './settings.js'
 
 const sphere = settings.sphere

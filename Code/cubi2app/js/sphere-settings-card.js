@@ -5,9 +5,9 @@ import { order } from './orders.js'
 import { command } from './commands.js'
 import { showMoveLabels } from './drive-card.js'
 import names from './names.js'
+import { degreesPerRadian } from './math.js'
 
-const { speed, accel, turnRate } = settings.sphereMoves
-const degreesPerRadian = 57.29578
+const { speed, turnRate } = settings.sphereMoves
 
 class SphereSettingsCard {
   constructor() {

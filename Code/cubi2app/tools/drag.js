@@ -12,13 +12,24 @@ class Drag {
     this.hold = null   // where inside the bar the finger took hold, while a drag is on
   }
 
+  // one switch for all four listeners: clear() turns them all off together
+  #stop = new AbortController()
+
   start = () => {
     const { bar } = this
+    const { signal } = this.#stop
 
-    bar.addEventListener('pointerdown', this._take)
-    bar.addEventListener('pointermove', this._move)
-    bar.addEventListener('pointerup', this._let)
-    bar.addEventListener('pointercancel', this._let)
+    bar.addEventListener('pointerdown', this._take, { signal })
+    bar.addEventListener('pointermove', this._move, { signal })
+    bar.addEventListener('pointerup', this._let, { signal })
+    bar.addEventListener('pointercancel', this._let, { signal })
+  }
+
+  // the window goes away: its listeners go with it, and a new start() works again
+  clear = () => {
+    this.#stop.abort()
+    this.#stop = new AbortController()
+    this.hold = null
   }
 
   _take = event => {

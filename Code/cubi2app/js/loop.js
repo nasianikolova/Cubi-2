@@ -122,7 +122,7 @@ class Loop {
     this.#readyTheLivePieces()
 
     const reading = state.liveTelemetry
-    if (reading?.q) this.#smoothTowardsTheReading(reading, elapsed)
+    if (reading?.q) this.#smoothTowardTheReading(reading, elapsed)
 
     this.#turnTheWheels(this.liveWheelAngles)
     return state.kind === 'sphere' ? this.#drawTheLiveSphere(reading) : this.#drawTheLiveCube()
@@ -138,7 +138,7 @@ class Loop {
 
   // The cube speaks about ten times a second. Jumping to each reading would look like stuttering,
   // so the picture walks part of the way there every frame, and the eye sees one smooth move.
-  #smoothTowardsTheReading = (reading, elapsed) => {
+  #smoothTowardTheReading = (reading, elapsed) => {
     const howMuch = 1 - Math.exp(-elapsed / smoothLive)
 
     this.liveTurn.set(reading.q[1], reading.q[2], reading.q[3], reading.q[0])

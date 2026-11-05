@@ -2,9 +2,11 @@ import settings from './settings.js'
 
 const waitAtMost = settings.link.waitAtMost   // ms - a cube that has not answered by now is not there
 
-// a cube that is not there answers with nothing at all
+// A cube that is not there answers with nothing at all (0). Through tools/serve.mjs the server
+// answers for it instead: 502, 'the cube did not answer'. Both mean the same - no connection -
+// so both are thrown, and whoever asked tries again or says so.
 const reached = answer => {
-  if (answer.status === 0) throw new Error(answer.text || 'no connection')
+  if (answer.status === 0 || answer.status === 502) throw new Error(answer.text || 'no connection')
   return answer
 }
 
@@ -13,10 +15,11 @@ const get = async url => {
 
   // AbortSignal.timeout - the asking gives up by itself, so the app never hangs on a dead cube
   const answer = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(waitAtMost) })
-  return { ok: answer.ok, status: answer.status, text: await answer.text() }
+  return reached({ ok: answer.ok, status: answer.status, text: await answer.text() })
 }
 
-const post = async (url, body, type) => {
+// waitFor - how long this one may take; most questions are quick, a new program is not
+const post = async (url, body, type, waitFor = waitAtMost) => {
   if (window.cubiLink) return reached(await window.cubiLink.post(url, body, type))
 
   const answer = await fetch(url, {
@@ -24,9 +27,9 @@ const post = async (url, body, type) => {
     body: body ?? '',
     headers: { 'Content-Type': type ?? 'text/plain' },
     cache: 'no-store',
-    signal: AbortSignal.timeout(waitAtMost)
+    signal: AbortSignal.timeout(waitFor)
   })
-  return { ok: answer.ok, status: answer.status, text: await answer.text() }
+  return reached({ ok: answer.ok, status: answer.status, text: await answer.text() })
 }
 
 // What the cube is doing now. sequence is the last line we already have, so it only sends the new ones.
@@ -46,10 +49,9 @@ const askCube = async (address, sequence) => {
 // one command, exactly as it would be typed in the terminal
 const sendCommand = (address, command) => get(address + '/c?x=' + encodeURIComponent(command))
 
-// a new program for the cube
-const sendProgram = (address, what, name, bytes) =>
-  post(address + '/fw/t?op=' + encodeURIComponent(what) + '&n=' + encodeURIComponent(name),
-    bytes, 'application/octet-stream')
+// One step of a new program for the Teensy: begin, data, end or abort. count is how many lines go.
+const sendProgramStep = (address, step, count, text) =>
+  post(address + '/fw/t?op=' + step + '&n=' + count, text, 'text/plain', settings.update.waitAtMost)
 
 // The address as the cube wants it: with http:// in front and no slash at the end.
 // An address that starts with a slash, such as /cube, is on our own server already - while we
@@ -61,4 +63,4 @@ const tidyAddress = address => {
   return /^https?:\/\//.test(clean) ? clean : 'http://' + clean
 }
 
-export { get, post, askCube, sendCommand, sendProgram, tidyAddress }
+export { get, post, askCube, sendCommand, sendProgramStep, tidyAddress }

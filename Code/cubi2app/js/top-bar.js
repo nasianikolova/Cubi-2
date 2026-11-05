@@ -1,5 +1,5 @@
 import { make } from '../tools/make.js'
-import { byId, showTerminal, showSettings, showRuns } from './functions.js'
+import { byId, showTerminal, showSettings, showRuns, showUpdate } from './functions.js'
 import { setKind } from './modes.js'
 import { setMode } from './live-link.js'
 import state from './state.js'
@@ -30,9 +30,10 @@ class TopBar {
 
     // the windows: each button opens its own window and closes it again
     this.windowButtons = [
-      { id: names.runsButton, text: 'Runs', controls: 'runs', act: () => showRuns(byId(names.runs).hidden) },
-      { id: names.settingsButton, text: 'Settings', controls: 'settings', act: () => showSettings(byId(names.settings).hidden) },
-      { id: names.terminalButton, text: 'Terminal', controls: 'terminal', act: () => showTerminal(byId(names.terminal).hidden) }
+      { id: names.updateButton, text: 'Update', controls: names.update, act: () => showUpdate(byId(names.update).hidden) },
+      { id: names.runsButton, text: 'Runs', controls: names.runs, act: () => showRuns(byId(names.runs).hidden) },
+      { id: names.settingsButton, text: 'Settings', controls: names.settings, act: () => showSettings(byId(names.settings).hidden) },
+      { id: names.terminalButton, text: 'Terminal', controls: names.terminal, act: () => showTerminal(byId(names.terminal).hidden) }
     ]
   }
 
@@ -45,9 +46,9 @@ class TopBar {
     element.setAttribute('class', 'topbar')
 
     groups.forEach(group => {
-      const { label, id, buttons } = group
+      const { label, id: groupId, buttons } = group   // id: groupId - the group's id, under another name
       // role group with a name, so a reader says what the two buttons are for
-      const box = make('div', { class: 'modes', role: 'group', 'aria-label': label, id: id || undefined })
+      const box = make('div', { class: 'modes', role: 'group', 'aria-label': label, id: groupId || undefined })
 
       buttons.forEach(item => {
         const { id, text, pressed, act } = item

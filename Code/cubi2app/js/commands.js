@@ -36,10 +36,10 @@ const goSphere = () => {
   say('SPHERE - holding. \'front\' is where wheel X\'s side points now.', true)
 }
 
-// the center of gravity of the simulated sphere, so many mm towards navel 0
+// the center of gravity of the simulated sphere, so many mm toward navel 0
 const setSphereGravity = mm => {
   sphereSim.gravityOffset = scale(navelZero, mm / 1000)
-  say('center of gravity ' + (+mm).toFixed(1) + ' mm towards navel 0 - \'go sphere\' rests it')
+  say('center of gravity ' + (+mm).toFixed(1) + ' mm toward navel 0 - \'go sphere\' rests it')
   goSphere()
 }
 
@@ -79,8 +79,8 @@ const whereItHangs = down => {
 // 'where G N [MM]': with a known weight taped on, how far the center of gravity really is
 const whereWithAWeight = (down, given) => {
   const [grams, navel, arm = testWeightArm] = given
-  const sane = grams >= 1 && grams <= 500 && navel >= 0 && navel <= 7 && arm >= 50 && arm <= 200
-  if (!sane) return say('where G N [MM]: G 1...500 g, N 0...7, MM 50...200')
+  const makesSense = grams >= 1 && grams <= 500 && navel >= 0 && navel <= 7 && arm >= 50 && arm <= 200
+  if (!makesSense) return say('where G N [MM]: G 1...500 g, N 0...7, MM 50...200')
   if (!state.simulationWhere) return say('first \'where\' WITHOUT the weight, then tape it on and \'where G N\'')
 
   // with the weight on, the sphere comes to rest with mass x offset + weight x arm straight down

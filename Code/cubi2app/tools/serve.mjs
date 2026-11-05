@@ -13,6 +13,7 @@ const asked = (what, instead) => {
 const port = Number(asked('port', 8000))
 const cubeAddress = asked('cube', 'http://192.168.4.1')
 const waitAtMost = 2500
+const waitForProgram = 120000   // a new program for the cube: clearing its flash and sending it take long
 
 // what each kind of file is, so the browser reads it right
 const kinds = {
@@ -57,12 +58,38 @@ const writeSafely = async (file, value) => {
   await rename(file + '.new', file)
 }
 
+// The runs kept so far. Only a missing file means 'no runs yet'. A file that cannot be read -
+// a comma too many, written by hand - is NEVER taken as empty: then nothing is written at all,
+// so not one run and not one note is lost.
 const readRuns = async () => {
+  let text
   try {
-    return JSON.parse(await readFile(runsFile, 'utf8'))
-  } catch {
-    return { runs: [] }
+    text = await readFile(runsFile, 'utf8')
+  } catch (trouble) {
+    if (trouble.code === 'ENOENT') return { runs: [] }
+    throw trouble
   }
+
+  // some editors put an invisible mark (a 'BOM') at the start of the file - it is not a mistake
+  const kept = JSON.parse(text.replace(/^\uFEFF/, ''))
+  if (!Array.isArray(kept.runs)) throw new Error('there is no list of runs in it')
+  return kept
+}
+
+// A run as the app sends it - anything else is not written into the file
+const isRun = run =>
+  /^\d{4}-\d{2}-\d{2}$/.test(run?.date) &&
+  typeof run.day === 'string' &&
+  typeof run.mode === 'string' &&
+  Number.isFinite(run.seconds) && run.seconds >= 0 &&
+  (run.stoppedBy === 'hand' || run.stoppedBy === 'cubi') &&
+  typeof run.why === 'string'
+
+// Only our own page may keep runs or talk to the cube through this server - not another site
+// open in the browser. The browser itself says where a request comes from ('Sec-Fetch-Site').
+const fromOurPage = request => {
+  const site = request.headers['sec-fetch-site']
+  return site === undefined || site === 'same-origin' || site === 'none'
 }
 
 // one write after the other, never two at once
@@ -70,27 +97,37 @@ let lastWrite = Promise.resolve()
 const oneAtATime = job => (lastWrite = lastWrite.then(job, job))
 
 const keepRun = async (request, response) => {
-  try {
-    const run = JSON.parse(await readBody(request))
+  const answer = (code, text) => response.writeHead(code, { 'Content-Type': 'text/plain' }).end(text)
 
+  let run
+  try {
+    run = JSON.parse(await readBody(request))
+  } catch {
+    return answer(400, 'not a run')
+  }
+  if (!isRun(run)) return answer(400, 'not a run')
+
+  try {
     await oneAtATime(async () => {
       // read again every time, so a note Nasia has just written by hand is kept
       const kept = await readRuns()
-      kept.runs.push({ ...run, note: run.note ?? '' })
+      kept.runs.push({ ...run, note: '' })
       await writeSafely(runsFile, kept)
     })
-
-    console.log('run kept: ' + run.seconds + ' s on the ' + run.mode)
-    response.writeHead(200, { 'Content-Type': 'text/plain' }).end('kept')
   } catch (trouble) {
-    console.log('a run could not be kept: ' + trouble.message)
-    response.writeHead(400, { 'Content-Type': 'text/plain' }).end('not kept')
+    const why = 'data/runs.json cannot be read (' + trouble.message + ') - nothing was written. Fix it by hand, and the next run is kept.'
+    console.log(why)
+    return answer(500, why)
   }
+
+  console.log('run kept: ' + run.seconds + ' s on the ' + run.mode)
+  answer(200, 'kept')
 }
 
 const keepLastRun = async (request, response) => {
   try {
     const recording = JSON.parse(await readBody(request))
+    if (!isRun(recording) || !Array.isArray(recording.readings)) throw new Error('not a recording')
     await oneAtATime(() => writeSafely(lastRunFile, recording))
     response.writeHead(200, { 'Content-Type': 'text/plain' }).end('kept')
   } catch (trouble) {
@@ -113,7 +150,7 @@ const passItOn = async (request, response) => {
       method: request.method,
       body,
       headers: request.headers['content-type'] ? { 'Content-Type': request.headers['content-type'] } : undefined,
-      signal: AbortSignal.timeout(waitAtMost)
+      signal: AbortSignal.timeout(request.url.startsWith('/cube/fw/') ? waitForProgram : waitAtMost)
     })
     const kind = fromCube.headers.get('content-type') ?? 'text/plain'
 
@@ -126,12 +163,25 @@ const passItOn = async (request, response) => {
 }
 
 const server = createServer(async (request, response) => {
+  const ours = request.url.startsWith('/cube/') || request.url.startsWith('/runs/')
+  if (ours && !fromOurPage(request)) {
+    response.writeHead(403).end('only the Cubi2 page may ask this')
+    return
+  }
+
   if (request.url.startsWith('/cube/')) return passItOn(request, response)
   if (request.method === 'POST' && request.url === '/runs/add') return keepRun(request, response)
   if (request.method === 'POST' && request.url === '/runs/last') return keepLastRun(request, response)
 
-  const asked = decodeURIComponent(request.url.split('?')[0])
-  const path = asked === '/' ? '/html/index.html' : asked
+  // a broken address (a lone % sign) cannot be read - it gets an answer, and the server keeps going
+  let wanted
+  try {
+    wanted = decodeURIComponent(request.url.split('?')[0])
+  } catch {
+    response.writeHead(400).end('not an address')
+    return
+  }
+  const path = wanted === '/' ? '/html/index.html' : wanted
   const file = join(root, normalize(path))
 
   // nothing outside the app folder is ever served
@@ -159,7 +209,8 @@ server.on('error', trouble => {
   process.exit(1)
 })
 
-server.listen(port, () => {
+// '127.0.0.1' - only this computer can open the app; nobody else on the network can reach it
+server.listen(port, '127.0.0.1', () => {
   console.log(`Cubi2 app on http://localhost:${port}`)
   console.log(`the cube at ${cubeAddress} - in the app's Cubi card put: /cube`)
 })
